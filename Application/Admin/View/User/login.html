@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎登录后台管理系统</title>
+    <link href="__PUBLIC__/css/admin.css" rel="stylesheet" type="text/css"/>
+    <script src="__PUBLIC__/js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function () {
+            var $main = $("#mainBody");
+            var win = $(window);
+            var $body = $("body");
+            var $cloud1 = $("#cloud1");
+            var $cloud2 = $("#cloud2");
+            var offset1 = 450;
+            var offset2 = 0;
+            var offsetbg = 0;
+
+            var mainwidth = $main.width();//outerWidth
+
+            // Cloud Float...
+            setInterval(function flutter() {
+                if (offset1 >= mainwidth) offset1 = -580;
+                if (offset2 >= mainwidth)  offset2 = -580;
+                offset1 += 1.1;
+                offset2 += 1;
+                $cloud1.css("background-position", offset1 + "px 100px");
+                $cloud2.css("background-position", offset2 + "px 460px")
+            }, 70);
+            setInterval(function bg() {
+                if (offsetbg >= mainwidth) offsetbg = -580;
+                offsetbg += 0.9;
+                $body.css("background-position", -offsetbg + "px 0")
+            }, 90);
+
+            win.resize(function() {
+                $(".loginbox").css({
+                    'position':'absolute',
+                    /* 692 - width of form */
+                    'left':($(window).width() - 692 )/ 2
+                });
+            });
+            win.trigger('resize');
+        });
+        function checkform() {
+            var username = $("#uname");
+            var password = $("#password");
+            var tip = $("#tip");
+            if (username.val().trim() == '请输入用户名') {
+                tip.text("*请输入用户名");
+                username.focus();
+                return false;
+            }
+            if (password.val().trim() == '请输入密码') {
+                tip.text("*请输入密码");
+                password.focus();
+                return false;
+            }
+        }
+    </script>
+</head>
+<body id="login_body" style="background-color:#1c77ac; background-image:url(__PUBLIC__/img/admin/light.png) no-repeat center top; overflow:hidden;">
+<div id="mainBody">
+    <div id="cloud1" class="cloud"></div>
+    <div id="cloud2" class="cloud"></div>
+</div>
+<div class="logintop">
+    <span>欢迎登录后台管理界面平台</span>
+</div>
+<div class="loginbody">
+    <span class="systemlogo" style="display:block;"></span>
+    <div class="loginbox">
+        <form name="loginform" method="post" action="__ACTION__" onSubmit="return checkform();">
+            <ul>
+                <li><input name="username" type="text" id="username" class="loginuser" placeholder="请输入用户名" /></li>
+                <li><input name="password" type="password" id="password" class="loginpwd" placeholder="请输入密码" /></li>
+                <li><input name="login" type="submit" class="loginbtn" value="登录"/><label style="color:#f00; font-size:12px; margin-left:10px;" id="tip"></label></li>
+            </ul>
+        </form>
+    </div>
+</div>
+<div class="loginbm">&copy;版权所有</div>
+</body>
+</html>
