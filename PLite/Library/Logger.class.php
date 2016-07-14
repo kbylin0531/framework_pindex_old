@@ -32,7 +32,7 @@ class Logger extends Lite{
     const CONF_CONVENTION = [
         'PRIOR_INDEX' => 0,//默认的驱动标识符，类型为int或者string
         'DRIVER_CLASS_LIST' => [
-            'Soya\\Extend\\Logger\\File',
+            'PLite\\Library\\Logger\\File',
         ],//驱动类列表
         'DRIVER_CONFIG_LIST' => [],//驱动类配置数组列表,如果不存在对应的但存在唯一的一个配置数组，则上面的driver类均使用该配置项
 

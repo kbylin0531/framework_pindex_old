@@ -15,8 +15,8 @@ class Cache extends Lite{
     const CONF_CONVENTION = [
         'PRIOR_INDEX' => 0,
         'DRIVER_CLASS_LIST' => [
-            'Soya\\Core\\Cacher\\File',
-            'Soya\\Core\\Cacher\\Memcache',
+            'PLite\\Core\\Cacher\\File',
+            'PLite\\Core\\Cacher\\Memcache',
         ],
         'DRIVER_CONFIG_LIST' => [
             [

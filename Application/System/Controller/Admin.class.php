@@ -29,7 +29,7 @@ class Admin extends Controller{
     }
 
     public function index(){
-        echo 'Hello Soya!';
+        echo 'Hello PLite!';
     }
 
     /**

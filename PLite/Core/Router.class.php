@@ -13,7 +13,7 @@ use PLite\Util\SEK;
 
 /**
  * Class Router
- * @package Soya\Core
+ * @package PLite\Core
  */
 class Router extends Lite{
 
@@ -168,7 +168,7 @@ class Router extends Lite{
     private static function _matchRegular($pattern, $rule, $uri){
         $result = null;
         // Does the RegEx match? use '#' to ignore '/'
-//        \Soya\dumpout($pattern, $rule, $uri,preg_match('#^'.$pattern.'$#', $uri, $matches));
+//        \PLite\dumpout($pattern, $rule, $uri,preg_match('#^'.$pattern.'$#', $uri, $matches));
         if (preg_match('#^'.$pattern.'$#', $uri, $matches)) {
             if(is_array($rule)){
                 $len = count($matches);

@@ -1197,7 +1197,7 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
 					// convert newline "\n" to '<br>'
 					$cellData = nl2br($cellData);
 
-					// Extend CSS class?
+					// Library CSS class?
 					if (!$this->_useInlineCss) {
 						$cssClass .= ' style' . $cell->getXfIndex();
 						$cssClass .= ' ' . $cell->getDataType();

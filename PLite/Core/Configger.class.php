@@ -16,7 +16,7 @@ class Configger extends Lite{
     const CONF_CONVENTION = [
         'PRIOR_INDEX' => 0,
         'DRIVER_CLASS_LIST' => [
-            'Soya\\Core\\Cofigger\\File',
+            'PLite\\Core\\Cofigger\\File',
         ],
         'DRIVER_CONFIG_LIST' => [
             [

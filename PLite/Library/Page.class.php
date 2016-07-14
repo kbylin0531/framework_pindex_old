@@ -15,13 +15,13 @@ use PLite\Lite;
  * <code>
  *      $page = new Page(1225,20);
  *      echo $page->show('',true);
- *      \Soya\dumpout(
+ *      \PLite\dumpout(
  *          $page->getFirstRow(),
  *          $page->getPageSize(),
  *          $page->getNowPage()
  *      );
  * </code>
- * @package Soya\Extend
+ * @package PLite\Library
  */
 class Page extends Lite{
 

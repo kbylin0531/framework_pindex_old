@@ -6,11 +6,11 @@
  * Date: 2016/6/22
  * Time: 11:26
  */
-namespace Soya\Extend\Logger;
-use Soya\Core\Exception;
-use Soya\Core\Storage;
-use Soya\Util\Datetime;
-use Soya\Util\UserAgent;
+namespace PLite\Library\Logger;
+use PLite\Core\Exception;
+use PLite\Core\Storage;
+use PLite\Util\Datetime;
+use PLite\Util\UserAgent;
 
 /**
  * Class File 日志的文件驱动，文件驱动使用Storage类进行文件的IO操作，云服务器不推荐使用Storage，建议使用

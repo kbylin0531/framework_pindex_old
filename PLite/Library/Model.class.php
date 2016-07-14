@@ -236,7 +236,8 @@ class Model {
         if(is_array($fields)){
             //是数组的情况通常用于update/create
             $keys = array_keys($fields);
-            array_walk($keys,function(&$field){ $field = $this->dao->escape($field);});//对字段进行转义
+            array_walk($keys,function(&$field){
+                $field = $this->dao->escape($field);});//对字段进行转义
 //            dumpout($fields);
             $this->_options['fields'] = implode(',', $keys);
             $this->_inputs['fields'] = array_values($fields);
@@ -330,7 +331,7 @@ class Model {
 
             $inputs = $this->_inputs['fields'];
             $sql = "INSERT INTO {$tablename}  ( {$fields} ) VALUES ({$holder});";
-//            \Soya\dump($sql,$inputs);
+//            \PLite\dump($sql,$inputs);
             return $this->exec($sql,$inputs);
         }else{
             //给定了参数的情况下无需考虑链式调用设置的参数
@@ -422,7 +423,7 @@ class Model {
             empty($this->_options['table']) and Exception::throwing('Table should not be empty!',$this->_options);
             $tablename = $this->_options['table'];
             //设置更新字段
-//            \Soya\dumpout($this->_options,$this->_inputs);
+//            \PLite\dumpout($this->_options,$this->_inputs);
             empty($this->_options['fields']) and Exception::throwing('Fields should not be empty!',$this->_options);
             $fields = explode(',',$this->_options['fields'] );
             array_walk($fields,function (&$field){
@@ -445,7 +446,7 @@ class Model {
                 $inputs = array_merge($inputs,$this->_options['where']);
             }
 
-//            \Soya\dumpout([$sql,$inputs]);
+//            \PLite\dumpout([$sql,$inputs]);
 
             $result = $this->exec($sql,$inputs);
 //            dumpout([$sql,$inputs],$result);
@@ -528,7 +529,7 @@ class Model {
             else $inputs = [];
             if(isset($this->_inputs['where'])) $inputs = array_merge($inputs,$this->_inputs['where']);
 
-//            \Soya\dumpout($sql,$inputs,$this->query($sql,$inputs),$this->error);
+//            \PLite\dumpout($sql,$inputs,$this->query($sql,$inputs),$this->error);
             return $this->query($sql,$inputs);
         }
 
@@ -644,7 +645,6 @@ class Model {
         }
 
 //        $sql = (self::$_conventions[self::class]['AUTO_ESCAPE_ON'] or $escape)? $this->dao->escape($fieldName):$fieldName;
-//        \Soya\dumpout($this->dao);
         $sql = $this->dao->escape($fieldName);
         $input = [];
 

@@ -10,7 +10,7 @@ namespace PLite\Library\View;
 
 /**
  * Interface ViewInterface
- * @package Soya\Extend
+ * @package PLite\Library
  */
 interface ViewInterface {
 

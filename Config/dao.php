@@ -9,7 +9,7 @@ return [
     'AUTO_ESCAPE_ON'    => true,
     'PRIOR_INDEX' => 0,
     'DRIVER_CLASS_LIST' => [
-        'Soya\\Core\\Dao\\MySQL',
+        'PLite\\Core\\Dao\\MySQL',
     ],
     'DRIVER_CONFIG_LIST' => [
         [

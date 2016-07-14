@@ -12,7 +12,7 @@ namespace PLite\Library;
 /**
  * Class Monitor 资源监视器
  * 修改自Thinkphp框架Hook类
- * @package Soya\Extend
+ * @package PLite\Library
  */
 class Hook {
 

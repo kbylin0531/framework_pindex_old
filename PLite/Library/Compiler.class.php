@@ -13,7 +13,7 @@ use PLite\Util\SEK;
  * 伪编译器
  * 将多个类文件压缩到一个文件中，加快加载速度
  * 注意：可能需要消耗更多内存
- * @package Soya\Core
+ * @package PLite\Core
  */
 class Compiler {
     /**

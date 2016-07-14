@@ -25,7 +25,7 @@
  *  ① querySelector() 方法仅仅返回匹配指定选择器的第一个元素。如果你需要返回所有的元素，请使用 querySelectorAll() 方法替代。
  *
  */
-window.soya = (function(){
+window.L = (function(){
     //开启严格模式节约时间
     "use strict";
 
@@ -967,7 +967,7 @@ window.soya = (function(){
         },
         getIndividual:function (element,data) {
             var ele = clone = undefined;
-            soya.utils.each(data,function (item, selector) {
+            L.utils.each(data,function (item, selector) {
                 // console.log(item,selector);return ;
                 ele = element.querySelector(selector);
                 ele && template.dispatch(item,ele);
@@ -984,7 +984,7 @@ window.soya = (function(){
         cloneList:function (element,datas,env) {
             var clone = undefined;
             var list = [];
-            soya.utils.each(datas,function (data) {
+            L.utils.each(datas,function (data) {
                 clone = element.cloneNode(true);
                 // console.log(clone,data);
                 clone = template.parse(clone,data);
@@ -1005,7 +1005,7 @@ window.soya = (function(){
         parse:function (ele,data) {
             // console.log(ele,data);
             var e , p;
-            soya.utils.each(data,function (value, key) {
+            L.utils.each(data,function (value, key) {
                 if(utils.isArray(value)){
                     e = ele.querySelector(key);
                     p = e.parentNode;
@@ -1143,6 +1143,6 @@ window.soya = (function(){
     };
 })();
 // 加密测试
-// console.log(soya.utils.md5(soya.utils.sha1('123456')) === 'd93a5def7511da3d0f2d171d9c344e91');
+// console.log(L.utils.md5(L.utils.sha1('123456')) === 'd93a5def7511da3d0f2d171d9c344e91');
 
 

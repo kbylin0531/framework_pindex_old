@@ -8,12 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
-namespace Soya\Extend\Uploader;
-use Soya\Core\Storage;
+namespace PLite\Library\Uploader;
+use PLite\Core\Storage;
 
 /**
  * Class Local 本地驱动
- * @package Soya\Vendor\Think\Uploader
+ * @package PLite\Vendor\Think\Uploader
  */
 class Local implements UploaderInterface{
     /**
@@ -42,7 +42,7 @@ class Local implements UploaderInterface{
     public function checkRootPath($rootpath){
         if(!(is_dir($rootpath) and is_writable($rootpath))){
             $result = Storage::getInstance()->mkdir($rootpath,0766);
-//            \Soya\dumpout($rootpath,$result);
+//            \PLite\dumpout($rootpath,$result);
             if(!$result){
                 $this->error = 'failed to check root path:'.$rootpath;
                 return false;

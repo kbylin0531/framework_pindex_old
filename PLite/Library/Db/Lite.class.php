@@ -9,8 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace Soya\Vendor\Think\Db;
-use Soya\Core\Exception;
+namespace PLite\Vendor\Think\Db;
+use PLite\Core\Exception;
 use PDO;
 
 class Lite {
@@ -400,7 +400,7 @@ class Lite {
                 //$this->model  =   '_think_';
                 // 记录操作结束时间
 //                G('queryEndTime');
-//                Soya($this->queryStr.' [ RunTime:'.G('queryStartTime','queryEndTime').'s ]','','SQL');
+//                PLite($this->queryStr.' [ RunTime:'.G('queryStartTime','queryEndTime').'s ]','','SQL');
             }
         }
     }

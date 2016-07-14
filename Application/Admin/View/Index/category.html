@@ -1,0 +1,80 @@
+<extend file="/Admin/View/Base/common.html" />
+
+<block name="script">
+    <script type="text/javascript" src="js/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="js/select-ui.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+
+    <script type="text/javascript" src="../include/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+    <script type="text/javascript" src="../include/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="../include/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("a[rel=exgroup]").fancybox({
+                'transitionIn': 'elastic',
+                'transitionOut': 'elastic',
+                'titlePosition': 'over',
+                'titleFormat': function (title, currentArray, currentIndex, currentOpts) {
+                    return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                }
+            });
+
+        });
+    </script>
+</block>
+
+<block name="body">
+    <body>
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            32323232
+        </ul>
+    </div>
+    <div class="rightinfo">
+
+        <div class="tools">
+            <ul class="toolbar">
+                <a href="">
+                    <li><span><img src="__PUBLIC__/img/admint01.png"/></span>添加根栏目</li>
+                </a>
+                <a href="">
+                    <li><span><img src="__PUBLIC__/img/admint01.png"/></span>添加新的子栏目</li>
+                </a>
+            </ul>
+        </div>
+        <table class="tablelist">
+            <thead>
+            <tr>
+                <th width="100">编号<i class="sort"><img src="__PUBLIC__/img/adminpx.gif"/></i></th>
+                <th>栏目代号</th>
+                <th>栏目名称</th>
+                <th width="100">排序</th>
+                <th width="150">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--<volissst name=" data_list" id="vo">-->
+                <!--<img src='__PUBLIC__/img/adminbg09.png' border='0' />-->
+                <img src='__PUBLIC__/img/adminbg10.png' border='0' />
+                <tr>
+                    <td>{ $vo.id}</td>
+                    <td>{ $vo.catg_code}</td>
+                    <td>{ $vo.catg_name}</td>
+                    <td>{ $vo.ps}</td>
+                    <td class="operate">
+                        <a href="" class="tablelink">展开</a>&nbsp;|&nbsp;
+                        <a href="" class="tablelink">修改</a>&nbsp;|&nbsp;
+                        <a href="" onClick="return confirmDel();" class="tablelink"> 删除</a></td>
+                </tr>
+            <!--</volist>-->
+
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            $('.tablelist tbody tr:odd').addClass('odd');
+        </script>
+    </div>
+    </body>
+</block>

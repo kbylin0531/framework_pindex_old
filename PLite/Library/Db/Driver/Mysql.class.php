@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace Soya\Vendor\Think\Db\Driver;
+namespace PLite\Vendor\Think\Db\Driver;
 use Think\Db\Driver;
 
 /**

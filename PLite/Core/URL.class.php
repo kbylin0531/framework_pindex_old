@@ -320,7 +320,7 @@ class URL extends Lite{
             }else{
                 $hostname = $_SERVER['SERVER_NAME'];
             }
-//            \Soya\dumpout($modules);
+//            \PLite\dumpout($modules);
             $uri = self::getBasicUrl(null,$hostname).'/'.
                 self::createInCommon($moduleUsed?null:$modules,$contler,$action,$params);
         }
@@ -382,7 +382,7 @@ class URL extends Lite{
     public static function createInCommon($modules=null,$contler=null,$action=null,array $params=null){
         $uri = '';
         $modules and $uri .= is_array($modules)?implode(self::$config['MM_BRIDGE'],$modules):$modules;
-//        \Soya\dumpout($modules,$uri);
+//        \PLite\dumpout($modules,$uri);
         $contler and $uri .= ''===$uri?$contler:self::$config['MC_BRIDGE'].$contler;
         $action and $uri .= self::$config['CA_BRIDGE'].$action;
         $params and $uri .= self::$config['AP_BRIDGE'].SEK::toParametersString($params,self::$config['PP_BRIDGE'],self::$config['PKV_BRIDGE']);
@@ -460,15 +460,23 @@ class URL extends Lite{
         if(!$url){
             return self::getInstance()->create(null,null,null,$params);
         }
+        $hashpos = strpos($url,'#');
+        if($hashpos){
+            $hash = substr($url,$hashpos+1);
+            $url = substr($url,0,$hashpos);
+        }else{
+            $hash = '';
+        }
         $parts = @explode('/',trim($url,'/'));
 
-//        \Soya\dumpout($parts);
+//        \PLite\dumpout($hash,$url,$parts);
         //调用URLHelper创建URL
         $action  = array_pop($parts);
         $ctler   = $action?array_pop($parts):null;
         $modules = $ctler?$parts:null;
         $url = self::getInstance()->create($modules,$ctler,$action,$params);
-//        \Soya\dumpout($modules,$ctler,$action,$url);
+//        \PLite\dumpout($modules,$ctler,$action,$url);
+        if($hash) $url .= '#'.$hash;
         return $url;
     }
 

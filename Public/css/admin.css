@@ -36,7 +36,7 @@ h2{font-weight:400}
 .loginbm a{font-weight:700;color:#0b3a58}
 .loginbm a:hover{color:#fff}
 .header,.topleft{height:88px}
-.topleft{background:url(../img/admin/topleft.jpg) no-repeat;float:left;width:300px}
+.topleft{background:url(../img/admin/topleft.jpg) no-repeat;float:left;width:186px}
 .topleft img{margin-top:9pt;margin-left:10px}
 .topright{height:88px;background:url(../img/admin/topright.jpg) no-repeat right;float:right}
 .nav{float:left}

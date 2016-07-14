@@ -57,7 +57,7 @@ class Db extends Lite{
             // 兼容mysqli
             if('mysqli' == $options['type']) $options['type']   =   'mysql';
             // 如果采用lite方式 仅支持原生SQL 包括query和execute方法
-            $class  =   !empty($options['lite'])?  'Soya\\Vendor\\Think\\Db\Lite' :   'Soya\\Vendor\\Think\\Db\\Driver\\'.ucwords(strtolower($options['type']));
+            $class  =   !empty($options['lite'])?  'PLite\\Vendor\\Think\\Db\Lite' :   'PLite\\Vendor\\Think\\Db\\Driver\\'.ucwords(strtolower($options['type']));
             if(class_exists($class)){
                 self::$instance[$md5]   =   new $class($options);
             }else{

@@ -6,7 +6,7 @@
  * Time: 20:35
  */
 
-namespace Soya\Core\Dao;
+namespace PLite\Core\Dao;
 
 
 class Oci extends DaoDriver {

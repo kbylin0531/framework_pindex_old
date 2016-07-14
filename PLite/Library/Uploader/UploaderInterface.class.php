@@ -6,7 +6,7 @@
  * Time: 11:02 AM
  */
 
-namespace Soya\Extend\Uploader;
+namespace PLite\Library\Uploader;
 
 
 interface UploaderInterface {

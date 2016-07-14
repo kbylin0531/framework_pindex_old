@@ -6,7 +6,7 @@
  * Time: 20:34
  */
 
-namespace Soya\Core\Dao;
+namespace PLite\Core\Dao;
 
 
 class SQLServer extends DaoDriver {

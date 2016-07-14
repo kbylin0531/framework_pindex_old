@@ -88,7 +88,7 @@ class Smarty implements ViewInterface {
      * @throws Exception
      */
     public function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
-        \Soya::recordStatus('display_begin');
+        \PLite::recordStatus('display_begin');
 
         //拟上下文转化成数组
         $context = &$this->_context;
@@ -103,11 +103,11 @@ class Smarty implements ViewInterface {
         //设置模板缓存目录
         $this->smarty->setCompileDir("{$cachedir}compile/");
         $this->smarty->setCacheDir("{$cachedir}cache/");
-        \Soya::recordStatus('view_display_begin');
+        \PLite::recordStatus('view_display_begin');
 
         //显示模板文件
         $this->smarty->display($template,$cache_id,$compile_id,$parent);
-        \Soya::recordStatus('view_display_end');
+        \PLite::recordStatus('view_display_end');
     }
 
 }

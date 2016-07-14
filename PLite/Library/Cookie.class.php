@@ -13,7 +13,7 @@ use PLite\Lite;
  *
  * 修改自Thinkphp5RC2
  *
- * @package Soya\Extend
+ * @package PLite\Library
  */
 class Cookie extends Lite{
     const CONF_NAME = 'cookie';

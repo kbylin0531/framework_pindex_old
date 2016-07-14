@@ -6,11 +6,11 @@
  * Time: 15:17
  */
 namespace PLite\Library;
-use Soya\Extend\Uploader\UploaderInterface;
+use PLite\Library\Uploader\UploaderInterface;
 use PLite\Lite;
 /**
  * Class Uploader 文件上传类
- * @package Soya\Extend
+ * @package PLite\Library
  */
 class Uploader extends Lite{
 
@@ -18,7 +18,7 @@ class Uploader extends Lite{
     const CONF_CONVENTION = [
         'PRIOR_INDEX' => 0,//默认驱动ID，类型限定为int或者string
         'DRIVER_CLASS_LIST' => [
-            'Soya\\Extend\\Uploader\\Local',
+            'PLite\\Library\\Uploader\\Local',
         ],//驱动类的列表
         'DRIVER_CONFIG_LIST' => [],//驱动类列表参数
 
@@ -132,12 +132,12 @@ class Uploader extends Lite{
         if(function_exists('finfo_open')){
             $finfo   =  finfo_open ( FILEINFO_MIME_TYPE );
         }
-//        \Soya\dumpout($finfo,$files);
+//        \PLite\dumpout($finfo,$files);
         // 对上传文件数组信息处理
         $files   =  $this->dealFiles($files);
         foreach ($files as $key => $file) {
             $file['name']  = strip_tags($file['name']);
-//            \Soya\dumpout($savepath);
+//            \PLite\dumpout($savepath);
             $file['savepath'] = $savepath;
             if(!isset($file['key']))   $file['key']    =   $key;
             /* 通过扩展获取文件类型，可解决FLASH上传$FILES数组返回文件类型错误的问题 */
@@ -185,7 +185,7 @@ class Uploader extends Lite{
         }
         $finfo and finfo_close($finfo);
         if(!empty($info['download'])){
-//            \Soya\dumpout($info['download']['savepath'],PATH_PUBLIC,strpos($savepath,PATH_PUBLIC));
+//            \PLite\dumpout($info['download']['savepath'],PATH_PUBLIC,strpos($savepath,PATH_PUBLIC));
             if(strpos($savepath,PATH_PUBLIC) === 0){
                 $info['download']['savepath'] = substr($savepath,strlen(PATH_PUBLIC)-1);
             }

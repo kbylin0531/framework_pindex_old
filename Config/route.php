@@ -13,7 +13,7 @@ return [
 //        ],
         '/wechat/[num]'   => function($id){
             $wechat = new \Application\Wechat\Common\Library\Wechat($id);
-            \Soya::closeTrace();
+            \PLite::closeTrace();
             if(isset($_GET['echostr'])){
                 //valid
                 if($wechat->checkSignature()){

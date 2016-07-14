@@ -418,10 +418,10 @@ namespace PLite {
             }
             ob_get_level() > 0 and ob_end_clean();
             $trace = $e->getTrace();
-            if(!empty($trace[1])){
+            if(!empty($trace[0])){
                 $vars = [
                     'message'   => get_class($e).' : '.$e->getMessage(),
-                    'position'  => 'File:'.$trace[1]['file'].'   Line:'.$trace[1]['line'],
+                    'position'  => 'File:'.$trace[0]['file'].'   Line:'.$trace[0]['line'],
                     'trace'     => $trace,
                 ];
                 if(DEBUG_MODE_ON){
@@ -562,7 +562,7 @@ namespace PLite {
                 //load the outer config
                 if(null === $conf) $conf = SEK::classConstant($clsnm,'CONF_NAME',null);//outer constant name
                 if(is_string($conf)) $conf = Lite::load($conf);
-//            \Soya\dumpout($conf,self::$_configs[$clsnm]);
+//            \PLite\dumpout($conf,self::$_configs[$clsnm]);
                 is_array($conf) and SEK::merge(self::$_configs[$clsnm],$conf,true);
             }
         }

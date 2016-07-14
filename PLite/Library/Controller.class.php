@@ -14,7 +14,7 @@ use PLite\Util\SEK;
 
 /**
  * Class Controller 控制器
- * @package Soya\Extend
+ * @package PLite\Library
  */
 class Controller {
 
@@ -103,20 +103,20 @@ class Controller {
             $context = self::$_context;
         }else{
             $context = SEK::parseLocation($template);
-//            \Soya\dump($context,self::$_context);
+//            \PLite\dump($context,self::$_context);
             $context['t'] or empty(self::$_context['t']) or $context['t'] = self::$_context['t'];
             $context['m'] or empty(self::$_context['m']) or $context['m'] = self::$_context['m'];
             $context['c'] or empty(self::$_context['c']) or $context['c'] = self::$_context['c'];
             $context['a'] or empty(self::$_context['a']) or $context['a'] = self::$_context['a'];
         }
-//        \Soya\dumpout($context);
+//        \PLite\dumpout($context);
         $view = View::getInstance();
         //模板变量导入
         $view->assign($this->_tVars);
 
         //格式化模板变量
         Debugger::status('display_begin');
-//        \Soya\dumpout($context);
+//        \PLite\dumpout($context);
         $view->display($context,$cache_id,$compile_id,$parent);
         Debugger::status('display_end');
     }
@@ -131,8 +131,9 @@ class Controller {
      * @return void
      */
     public function redirect($compo,array $params=[],$time=0,$message=''){
-//        \Soya\dumpout($compo);
-        URL::redirect(URL::url($compo,$params),$time,$message);
+        $url = URL::url($compo,$params);
+//        \PLite\dumpout($url);
+        URL::redirect($url,$time,$message);
     }
 
     /**

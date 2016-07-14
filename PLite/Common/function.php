@@ -41,7 +41,7 @@ function dump(){
  * @return mixed
  */
 function session($name='',$value='') {
-    $prefix   =  'soya_';
+    $prefix   =  'PLite_';
     if(is_array($name)) { // session初始化 在session_start 之前调用
         if(isset($name['name']))            session_name($name['name']);
         if(isset($name['path']))            session_save_path($name['path']);

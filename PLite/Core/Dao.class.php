@@ -7,15 +7,17 @@
  */
 
 namespace PLite\Core;
+use PLite\Core\Dao\DaoDriver;
 use PLite\Lite;
 use PDO;
 use PDOStatement;
 use PDOException;
+use PLite\PLiteException as Exception;
 
 /**
  * Class Dao
  * Database access object
- * @package Soya\Core
+ * @package PLite\Core
  */
 class Dao extends Lite {
     const CONF_NAME = 'dao';
@@ -23,9 +25,9 @@ class Dao extends Lite {
         'AUTO_ESCAPE_ON'    => true,
         'PRIOR_INDEX' => 0,
         'DRIVER_CLASS_LIST' => [
-            'Soya\\Core\\Dao\\MySQL',
-            'Soya\\Core\\Dao\\Oci',
-            'Soya\\Core\\Dao\\SQLServer',
+            'PLite\\Core\\Dao\\MySQL',
+            'PLite\\Core\\Dao\\Oci',
+            'PLite\\Core\\Dao\\SQLServer',
         ],
         'DRIVER_CONFIG_LIST' => [
             [
@@ -104,6 +106,14 @@ class Dao extends Lite {
     }
 
     /**
+     * Dao constructor.
+     * @param string|int $index
+     */
+    private function __construct($index){
+        $this->_driver = self::getDriver($index);
+    }
+
+    /**
      * 获取PDO对象上发生的错误
      * [
      *      0   => SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
@@ -131,14 +141,6 @@ class Dao extends Lite {
         return 0 !== intval($stmtError[0])?"Error Code:[{$stmtError[0]}]::[{$stmtError[1]}]:[{$stmtError[2]}]":null;//代号为0时表示错误未发生
     }
 
-    /**
-     * 获取原生的PDO继承对象
-     * @return DaoDriver
-     */
-    public function getDriver(){
-        return $this->_driver;
-    }
-
     /********************************* 基本的查询功能(发生了错误可以查询返回值是否是false,getError可以获取错误的详细信息(每次调用这些功能前都会清空之前的错误)) ***************************************************************************************/
     /**
      * 简单地查询一段SQL，并且将解析出所有的结果集合
@@ -150,7 +152,7 @@ class Dao extends Lite {
      */
     public function query($sql,array $inputs=null){
         $this->error = null;
-//        \Soya\dumpout($sql,$inputs,$this->_driver);
+//        \PLite\dumpout($sql,$inputs,$this->_driver);
         if(empty($inputs)){
             //直接使用PDO的查询功能
             try{
@@ -179,7 +181,7 @@ class Dao extends Lite {
             }catch(\PDOException $e){
                 $this->error = $e->getMessage();
             }
-//            \Soya\dumpout($this->error);
+//            \PLite\dumpout($this->error);
         }
         return false;
     }
@@ -208,9 +210,9 @@ class Dao extends Lite {
                 if(false === $statement){
                     $this->error = Dao::fetchPdoError($this->_driver);
                 }else{
-//                    \Soya\dumpout($inputs);
+//                    \PLite\dumpout($inputs);
                     array_walk($inputs,function ($value){
-//                        \Soya\dumpout($value);
+//                        \PLite\dumpout($value);
                         if(is_array($value)){
                             Exception::throwing(['元素类型需要设置成可转换成string类型的类型!',var_export($value)]);
                         }
@@ -385,7 +387,6 @@ class Dao extends Lite {
      * @return string
      */
     public function escape($fieldname){
-//        \Soya\dumpout($this->_driver);
         return $this->_driver->escape($fieldname);
     }
 

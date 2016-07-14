@@ -9,8 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace Soya\Vendor\Think\Db;
-use Soya\Core\Exception;
+namespace PLite\Vendor\Think\Db;
+use PLite\Core\Exception;
 use PDO;
 
 abstract class Driver {

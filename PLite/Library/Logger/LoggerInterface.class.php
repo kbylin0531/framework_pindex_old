@@ -5,7 +5,7 @@
  * Date: 2016/6/22
  * Time: 11:25
  */
-namespace Soya\Extend\Logger;
+namespace PLite\Library\Logger;
 /**
  * Interface LogInterface 日志接口
  * Interface LoggerInterface

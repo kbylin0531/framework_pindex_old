@@ -80,7 +80,7 @@ final class SEK {
         $flag = is_callable($comparer);
         $flag2 = is_array($comparer);
         foreach ($array as $key=>$val){
-//            \Soya\dump($flag?$comparer($key,$val):($comparer === $val));
+//            \PLite\dump($flag?$comparer($key,$val):($comparer === $val));
             if($flag?$comparer($key,$val):($flag2?in_array($val,$comparer):($comparer === $val))){
                 if($leave){
                     unset($array[$key]);
@@ -89,7 +89,7 @@ final class SEK {
                 }
             }
         }
-//        \Soya\dump($array,$result);
+//        \PLite\dump($array,$result);
         $leave or $array = $result;
     }
 
@@ -255,7 +255,7 @@ final class SEK {
      */
     public static function backtrace($elements=self::ELEMENT_ALL, $place=self::PLACE_SELF) {
         $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-//        \Soya\dump($trace);
+//        \PLite\dump($trace);
         $result = [];
         if($elements){
             $elements & self::ELEMENT_ARGS     and $result[self::ELEMENT_ARGS]    = isset($trace[$place]['args'])?$trace[$place]['args']:null;
@@ -346,10 +346,10 @@ final class SEK {
                         }
                         break;
                     case T_START_HEREDOC:
-                        $stripStr .= "<<<Soya\n";
+                        $stripStr .= "<<<PLite\n";
                         break;
                     case T_END_HEREDOC:
-                        $stripStr .= "Soya;\n";
+                        $stripStr .= "PLite;\n";
                         for($k = $i+1; $k < $j; $k++) {
                             if(is_string($tokens[$k]) && $tokens[$k] == ';') {
                                 $i = $k;

@@ -6,7 +6,7 @@
  * Date: 2016/6/22
  * Time: 12:04
  */
-namespace Soya\Extend\Session;
+namespace PLite\Library\Session;
 /**
  * Interface SessionInterface
  * @package Kbylin\System\Core\Session
@@ -17,7 +17,7 @@ interface SessionInterface {
      * 获取指定名称的session的值
      * @param null|string $name 为null时获取全部session
      * @return mixed
-     */
+     */ 
     public function get($name=null);
 
     /**

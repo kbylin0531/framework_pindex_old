@@ -12,7 +12,7 @@ use PLite\Util\SEK;
 
 /**
  * Class File 文件系统驱动类基类
- * @package Soya\Core\Storage
+ * @package PLite\Core\Storage
  */
 class File implements StorageInterface {
 
@@ -85,7 +85,7 @@ class File implements StorageInterface {
                 return true;
             }
         }
-//        \Soya\dumpout($scopes,$temp);
+//        \PLite\dumpout($scopes,$temp);
         return false;
     }
 
@@ -279,7 +279,7 @@ class File implements StorageInterface {
      * @return bool 文件夹已经存在的时候返回false,成功创建返回true
      */
     private function _makeDir($dirpath,$auth = 0755){
-//        \Soya\dumpout(is_dir($dirpath),$dirpath,mkdir($dirpath,$auth,true));
+//        \PLite\dumpout(is_dir($dirpath),$dirpath,mkdir($dirpath,$auth,true));
         return is_dir($dirpath)?chmod($dirpath,$auth):mkdir($dirpath,$auth,true);
     }
 
@@ -340,7 +340,7 @@ class File implements StorageInterface {
      * @return bool 是否成功写入|返回null表示在访问的范围之外
      */
     public function write($filepath,$content,$write_encode=null,$text_encode='UTF-8'){
-//        \Soya\dump($this->convention,$filepath,$this->checkWritableWithRevise($filepath));
+//        \PLite\dump($this->convention,$filepath,$this->checkWritableWithRevise($filepath));
         if(!$this->checkWritableWithRevise($filepath)) return null;
         return $this->_write($filepath,$content,$write_encode,$text_encode);
     }

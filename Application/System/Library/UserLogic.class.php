@@ -13,7 +13,7 @@ use PLite\Library\Session;
 use PLite\Lite;
 use PLite\Util\Encrypt\Base64;
 
-class UserLogic extends Lite{
+class UserLogic extends Lite {
 
     private static $key = '_userinfo_';
 
@@ -22,13 +22,12 @@ class UserLogic extends Lite{
      * @return bool
      */
     public function isLogin(){
-        $session = Session::getInstance();
-        $status = $session->get(self::$key);//return null if not set
+        $status = Session::get(self::$key);//return null if not set
         if(!$status){
-            $cookie = Cookie::getInstance()->get(self::$key);
+            $cookie = Cookie::get(self::$key);
             if($cookie){
                 $usrinfo = unserialize(Base64::decrypt($cookie, self::$key));
-                $session->set(self::$key, $usrinfo);
+                Session::set(self::$key, $usrinfo);
                 return true;
             }
         }
@@ -42,12 +41,12 @@ class UserLogic extends Lite{
      * @param bool $remember
      * @return bool|string 返回的string代表着错误的信息，返回true表示登陆成功
      */
-    public function login($username,$password,$remember){
+    public function login($username,$password,$remember=false){
         $model = new UserModel();
         $usrinfo = $model->checkLogin($username,$password);
-//        \Soya\dumpout($usrinfo);
+//        \PLite\dumpout($usrinfo);
         if(false === $usrinfo){
-//            \Soya\dumpout($model->error());
+//            \PLite\dumpout($model->error());
             return $model->error();
         }
 
@@ -55,9 +54,10 @@ class UserLogic extends Lite{
         if($remember){
             $sinfo = serialize($usrinfo);
             $cookie = Base64::encrypt($sinfo, self::$key);
-            Cookie::getInstance()->set(self::$key, $cookie,7*24*3600);//一周的时间
+            Cookie::set(self::$key, $cookie,7*24*3600);//一周的时间
         }
-        Session::getInstance()->set(self::$key, $usrinfo);
+//        \PLite\dumpout($usrinfo);
+        Session::set(self::$key, $usrinfo);
         return true;
     }
 

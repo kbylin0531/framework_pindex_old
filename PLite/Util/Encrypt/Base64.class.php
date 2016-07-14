@@ -10,7 +10,7 @@ namespace PLite\Util\Encrypt;
 /**
  * Class Encrypt
  * based on base64.
- * @package Soya\Util
+ * @package PLite\Util
  */
 class Base64{
 

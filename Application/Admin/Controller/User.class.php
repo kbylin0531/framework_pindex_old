@@ -7,6 +7,8 @@
  */
 
 namespace Application\Admin\Controller;
+use Application\System\Library\UserLogic;
+use PLite\Debugger;
 use PLite\Library\Controller;
 
 /**
@@ -15,36 +17,32 @@ use PLite\Library\Controller;
  */
 class User extends Controller {
 
-    public function login(){
+    public function login($username='',$password=''){
+        if(IS_METHOD_POST){
+            if(!$username or !$password){
+                $this->redirect('/Admin/User/login#'.urlencode('用户名或者密码不能为空'));
+            }
+            $result = UserLogic::getInstance()->login($username,$password);
+            Debugger::trace($result);
+            if(true !== $result){
+                $this->redirect('/Admin/User/login#'.urlencode($result));
+            }else{
+                $this->redirect('/Admin/Index/index');
+            }
+            exit();
+        }
         $this->display();
     }
 
-    public function register(){
-        $this->show();
-    }
+
 
     /**
-     * 修改密码
+     * 注销登录
      */
-    public function profile(){
-        $this->show();
+    public function logout(){
+        UserLogic::getInstance()->logout();
+        $this->redirect('/System/Member/Public/login');
     }
 
-    /**
-     * 微信绑定登录
-     */
-    public function bindLogin(){
-        $this->show();
-    }
-    /**
-     * XXX
-     */
-    public function simpleLogin(){
-        $this->show();
-    }
-
-    public function verify(){
-        Verify::getInstance()->entry();
-    }
 
 }

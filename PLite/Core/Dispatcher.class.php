@@ -16,7 +16,7 @@ use PLite\Util\SEK;
 /**
  * Class Dispatcher
  * 将URI解析结果调度到指定的控制器下的方法下
- * @package Soya\Core
+ * @package PLite\Core
  */
 class Dispatcher extends Lite {
 
@@ -146,7 +146,7 @@ class Dispatcher extends Lite {
     public static function load($name,$type=Configger::TYPE_PHP){
         if(!defined('REQUEST_MODULE')) return PLiteException::throwing('\'load\'必须在\'exec\'方法之后调用!');//前提是正确制定过exec方法
         $path = PATH_BASE.'/Application/'.REQUEST_MODULE.'/Common/Config/';
-//        \Soya\dumpout($path);
+//        \PLite\dumpout($path);
         $storage = Storage::getInstance();
         if($storage->has($path) === Storage::IS_DIR){
             $file = "{$path}/{$name}.".$type;

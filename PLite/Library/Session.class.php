@@ -7,7 +7,7 @@
  */
 namespace PLite\Library;
 use PLite\PLiteException;
-use Soya\Extend\Session\SessionInterface;
+use PLite\Library\Session\SessionInterface;
 use PLite\Lite;
 
 
@@ -31,10 +31,8 @@ class Session extends Lite{
 
     const CONF_NAME = 'session';
     const CONF_CONVENTION = [
-        'PRIOR_INDEX' => 0,//默认驱动ID，类型限定为int或者string
-        'DRIVER_CLASS_LIST' => [
-            'Soya\\Extend\\Session\\File'
-        ],//驱动类的列表
+        'PRIOR_INDEX' => null,//默认驱动ID，类型限定为int或者string
+        'DRIVER_CLASS_LIST' => [],//驱动类的列表
         'DRIVER_CONFIG_LIST' => [],//驱动类列表参数
 
 

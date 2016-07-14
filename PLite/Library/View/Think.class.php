@@ -17,7 +17,7 @@ use PLite\Util\SEK;
  *
  * 修改自Thinkphp\Template类
  *
- * @package Soya\Extend
+ * @package PLite\Library
  */
 class Think implements ViewInterface{
     /**
@@ -44,7 +44,7 @@ class Think implements ViewInterface{
         'CACHE_EXPIRE'     => 10,//缓存时间，0便是永久缓存,仅以设置为30
         'CACHE_UPDATE_CHECK'=> true,//是否检查模板文件是否发生了修改，如果发生修改将更新缓存文件（实现：检测模板文件的时间是否大于缓存文件的修改时间）
 
-        'CACHE_PATH'       => PATH_RUNTIME.'View/',
+        'CACHE_PATH'       => PATH_RUNTIME.'/View/',
         'TEMPLATE_SUFFIX'  =>  '.html',     // 默认模板文件后缀
         'CACHFILE_SUFFIX'  =>  '.php',      // 默认模板缓存后缀
         'TAGLIB_BEGIN'     =>  '<',  // 标签库标签开始标记
@@ -134,7 +134,7 @@ class Think implements ViewInterface{
 //        dumpout($template,is_file($template));
         //模板常量
         defined('__ROOT__') or define('__ROOT__',URL::getBasicUrl());
-        defined('__MODULE__') or define('__MODULE__',__PUBLIC__.REQUEST_MODULE);
+        defined('__MODULE__') or define('__MODULE__',__PUBLIC__.'/'.REQUEST_MODULE);
         defined('__CONTROLLER__') or define('__CONTROLLER__',__MODULE__.'/'.REQUEST_CONTROLLER);
         defined('__ACTION__') or define('__ACTION__',__CONTROLLER__.'/'.REQUEST_ACTION);
 
@@ -222,10 +222,10 @@ class Think implements ViewInterface{
         if($this->_config('CACHE_ON') and $this->config['CACHE_EXPIRE'] > 0 and is_file($tmplCacheFile)){
             $lastmtime = Storage::mtime($tmplCacheFile);
             //缓存开启并且缓存文件存在的情况下价差缓存是否过期
-//            \Soya\dumpout($lastmtime,$this->config['CACHE_EXPIRE'],$_SERVER['REQUEST_TIME']);
+//            \PLite\dumpout($lastmtime,$this->config['CACHE_EXPIRE'],$_SERVER['REQUEST_TIME']);
             if($lastmtime + $this->config['CACHE_EXPIRE'] > $_SERVER['REQUEST_TIME']){//缓存期未结束
                 if($this->config['CACHE_UPDATE_CHECK']){
-//                    \Soya\dumpout($templateFile,$tmplCacheFile,Storage::mtime($templateFile),Storage::mtime($tmplCacheFile));
+//                    \PLite\dumpout($templateFile,$tmplCacheFile,Storage::mtime($templateFile),Storage::mtime($tmplCacheFile));
                     if(Storage::mtime($templateFile) < $lastmtime){//模板文件更新
                         return $tmplCacheFile;
                     }
@@ -364,7 +364,7 @@ class Think implements ViewInterface{
         $end        =   $this->config['TAGLIB_END'];
         // 读取模板中的继承标签
         $find       =   preg_match('/'.$begin.'extend\s(.+?)\s*?\/'.$end.'/is',$content,$matches);
-//        \Soya\dumpout($begin,$end,$matches);
+//        \PLite\dumpout($begin,$end,$matches);
         if($find) {
             //替换extend标签
             $content    =   str_replace($matches[0],'',$content);

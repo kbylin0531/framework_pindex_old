@@ -52,6 +52,7 @@ class UserModel extends Model{
                 $where['username'] = $account;
         }
         $user = $this->fields('avatar,birthday,email,id,nickname,phone,last_login_ip,last_login_time,sex,username,password')->where($where)->find();
+//        \PLite\dumpout($user,$password);
         if(false === $user){
             if(!DEBUG_MODE_ON){
                 Logger::write($this->error());
@@ -62,7 +63,7 @@ class UserModel extends Model{
             $this->error = '用户不存在';
             return false;
         }else{
-//            \Soya\dumpout($password,$user);
+//            \PLite\dumpout($password,$user);
             if($password === $user['password']){
                 unset($user['password']);
                 return $user;
@@ -113,7 +114,7 @@ class UserModel extends Model{
         foreach ($info as $key=>$value) {
             if(!isset($value)) unset($info[$key]);
         }
-//        \Soya\dumpout($info);
+//        \PLite\dumpout($info);
         return $this->fields($info)->create();
     }
 
