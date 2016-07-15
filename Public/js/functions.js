@@ -1,5 +1,8 @@
 $(document).ready(function () {
     var docbody = $("body");
+
+    var public_url = typeof L !== 'undefined'?L.C.public_url:'../';
+
     /* --------------------------------------------------------
      Template Settings
      -----------------------------------------------------------*/
@@ -16,46 +19,46 @@ $(document).ready(function () {
         '<div class="modal-body">' +
         '<div class="row template-skins">' +
         '<a data-skin="skin-blur-violate" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/violate.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/violate.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-lights" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/lights.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/lights.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-city" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/city.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/city.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-greenish" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/greenish.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/greenish.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-night" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/night.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/night.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-blue" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/blue.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/blue.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-sunny" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/sunny.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/sunny.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/cloth" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/cloth.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/cloth.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/tectile" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/tectile.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/tectile.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-chrome" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/chrome.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/chrome.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-ocean" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/ocean.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/ocean.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-sunset" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/sunset.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/sunset.jpg" alt="">' +
         '</a>' +
         '<a data-skin="skin/blur-yellow" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/yellow.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/yellow.jpg" alt="">' +
         '</a>' +
         '<a  data-skin="skin/blur-kiwi" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + L.constant.public_url + '/img/skin/kiwi.jpg" alt="">' +
+        '<img src="' + public_url + '/img/skin/kiwi.jpg" alt="">' +
         '</a>' +
         '</div>' +
         '</div>' +
