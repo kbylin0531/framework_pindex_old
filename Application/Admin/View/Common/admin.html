@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<!--[if (gt IE 9)|(!IE)]><!--><html><!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>PLite</title>
+
+    <!-- CSS -->
+    <link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/font-awesome.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/form.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/calendar.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/media-player.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/style.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/icons.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/generics.css" rel="stylesheet">
+    <block name="style"></block>
+</head>
+<body id="skin-blur-violate">
+<include file="/Admin/View/Common/Include/header.html" />
+<div class="clearfix"></div>
+<section id="main" class="p-relative" role="main">
+    <!-- Sidebar -->
+    <include file="/Admin/View/Common/Include/sidebar.html" />
+
+    <!-- Content -->
+    <section id="content" class="container">
+        <include file="/Admin/View/Common/Include/title.html" />
+        <block name="content"></block>
+    </section>
+    <br/><br/>
+</section>
+
+<!-- Javascript Libraries -->
+<!-- L -->
+<script src="__PUBLIC__/js/L.js"></script>
+<!-- jQuery -->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<!-- jQuery Library -->
+<!-- Bootstrap -->
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<!-- UX -->
+<script src="__PUBLIC__/js/scroll.min.js"></script>
+<!-- Custom Scrollbar -->
+<!-- Other -->
+<script src="__PUBLIC__/js/calendar.min.js"></script>
+<!-- Calendar -->
+<!--<script src="__PUBLIC__/js/feeds.min.js"></script>-->
+<!-- News Feeds -->
+
+
+<script>
+    L.constant = {
+        public_url:'__PUBLIC__'
+    };
+</script>
+<!-- All JS functions -->
+<script src="__PUBLIC__/js/functions.js"></script>
+<block name="script"></block>
+</body>
+</html>
+
