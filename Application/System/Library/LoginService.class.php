@@ -13,7 +13,7 @@ use PLite\Library\Session;
 use PLite\Lite;
 use PLite\Util\Encrypt\Base64;
 
-class UserLogic extends Lite {
+class LoginService extends Lite {
 
     private static $key = '_userinfo_';
 

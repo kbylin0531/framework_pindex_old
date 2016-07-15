@@ -6,7 +6,9 @@
  * Time: 4:54 PM
  */
 namespace Application\Admin\Controller;
-use Application\System\Library\UserLogic;
+use Application\System\Library\LoginService;
+use Application\System\Library\Service\CategoryService;
+use Application\System\Library\Service\MenuService;
 use PLite\Core\URL;
 use PLite\Debugger;
 use PLite\Library\Controller;
@@ -29,64 +31,7 @@ class Index extends Controller{
     }
 
     public function left(){
-        $this->assign('sidemenu',[
-            [
-                'icon'  => 'fa-list',
-                'title' => '通用管理',
-                'children'  => [
-                    [
-                        'url'   => URL::url('catg_mg'),
-                        'title' => '栏目配置',
-                    ],
-                    [
-                        'url'   => URL::url('news_mg',['start_catg'=>'news','style'=>1]),
-                        'title' => '图文管理',
-                    ],
-                    [
-                        'url'   => URL::url('product_mg',['start_catg'=>'product','style'=>1]),
-                        'title' => '产品管理',
-                    ],
-                    [
-                        'url'   => URL::url('adv_mg',['start_catg'=>'adv','style'=>2]),
-                        'title' => '广告管理',
-                    ],
-                    [
-                        'url'   => URL::url('feed_mg'),
-                        'title' => '留言管理',
-                    ],
-                    [
-                        'url'   => URL::url('file_mg'),
-                        'title' => '文件管理',
-                    ],
-                ]
-            ],
-            [
-                'icon'  => 'fa-list',
-                'title' => '微信管理',
-                'children'  => [
-                    [
-                        'url'   => URL::url('replytext_mg',['start_catg'=>'msg-1','style'=>1]),
-                        'title' => '文本回复',
-                    ],
-                    [
-                        'url'   => URL::url('replynews_mg',['start_catg'=>'msg-2','style'=>2]),
-                        'title' => '图文回复',
-                    ],
-                    [
-                        'url'   => URL::url('wxmenu_mg'),
-                        'title' => '自定义菜单',
-                    ],
-                    [
-                        'url'   => URL::url('adv_mg',['start_catg'=>'adv-3','style'=>2]),
-                        'title' => '首页幻灯片',
-                    ],
-                    [
-                        'url'   => URL::url('wxconfig'),
-                        'title' => '微信设置',
-                    ],
-                ]
-            ],
-        ]);
+        $this->assign('sidemenu',(new MenuService())->getSideMenu());
         Debugger::closeTrace();
         $this->show();
     }
@@ -96,6 +41,8 @@ class Index extends Controller{
     }
 
     public function category(){
+        $list = (new CategoryService())->getCategoryList();
+        $this->assign('data_list',$list);
 /*
         if ($action == "add") {
             if (isset($_REQUEST['add'])) {
@@ -237,7 +184,7 @@ class Index extends Controller{
 
 
     protected function show($template=null){
-        $info = UserLogic::getInstance()->getLoginInfo();
+        $info = LoginService::getInstance()->getLoginInfo();
 
         $this->assign('user_info',$info);
         //获取调用自己的函数

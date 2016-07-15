@@ -23,7 +23,7 @@ class View extends Lite {
         'DRIVER_CONFIG_LIST' => [
             [
                 'SMARTY_DIR'        => PATH_BASE.'/Vendor/smarty3/libs/',
-                'TEMPLATE_CACHE_DIR'    => PATH_RUNTIME.'View/',
+                'TEMPLATE_CACHE_DIR'    => PATH_RUNTIME.'/View/',
                 'SMARTY_CONF'       => [
                     //模板变量分割符号
                     'left_delimiter'    => '{',
@@ -38,7 +38,7 @@ class View extends Lite {
                 'CACHE_EXPIRE'     => 10,//缓存时间，0便是永久缓存,仅以设置为30
                 'CACHE_UPDATE_CHECK'=> true,//是否检查模板文件是否发生了修改，如果发生修改将更新缓存文件（实现：检测模板文件的时间是否大于缓存文件的修改时间）
 
-                'CACHE_PATH'       => PATH_RUNTIME.'View/',
+                'CACHE_PATH'       => PATH_RUNTIME.'/View/',
                 'TEMPLATE_SUFFIX'  =>  '.html',     // 默认模板文件后缀
                 'CACHFILE_SUFFIX'  =>  '.php',      // 默认模板缓存后缀
                 'TAGLIB_BEGIN'     =>  '<',  // 标签库标签开始标记

@@ -7,7 +7,7 @@
  */
 
 namespace Application\System\Controller;
-use Application\System\Library\UserLogic;
+use Application\System\Library\LoginService;
 use PLite\library\Controller;
 use PLite\library\View;
 use PLite\Util\SEK;
@@ -23,7 +23,7 @@ class Admin extends Controller{
     }
 
     protected function __checkLogin(){
-        if(!UserLogic::getInstance()->isLogin()){
+        if(!LoginService::getInstance()->isLogin()){
             $this->redirect('/Home/User/login');
         }
     }

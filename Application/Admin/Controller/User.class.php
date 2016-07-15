@@ -7,7 +7,7 @@
  */
 
 namespace Application\Admin\Controller;
-use Application\System\Library\UserLogic;
+use Application\System\Library\LoginService;
 use PLite\Debugger;
 use PLite\Library\Controller;
 
@@ -22,7 +22,7 @@ class User extends Controller {
             if(!$username or !$password){
                 $this->redirect('/Admin/User/login#'.urlencode('用户名或者密码不能为空'));
             }
-            $result = UserLogic::getInstance()->login($username,$password);
+            $result = LoginService::getInstance()->login($username,$password);
             Debugger::trace($result);
             if(true !== $result){
                 $this->redirect('/Admin/User/login#'.urlencode($result));
@@ -40,7 +40,7 @@ class User extends Controller {
      * 注销登录
      */
     public function logout(){
-        UserLogic::getInstance()->logout();
+        LoginService::getInstance()->logout();
         $this->redirect('/System/Member/Public/login');
     }
 

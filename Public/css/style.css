@@ -32,7 +32,7 @@ h2{font-weight:normal;}
 .logintop ul li a{color:#afc5d2;}
 .logintop ul li a:hover{color:#fff;}
 .loginbody{background:url(../img/admin/loginbg3.png) no-repeat center center; width:100%; height:585px; overflow:hidden; position:absolute; top:47px;}
-.systemlogo{background:url(../img/admin/loginlogo.png) no-repeat center;width:100%; height:71px; margin-top:75px;}
+.systemlogo{background:url(../img/logo.png) no-repeat center;width:100%; height:71px; margin-top:75px;}
 .loginbox{width:692px; height:336px; background:url(../img/admin/logininfo.png) no-repeat; margin-top:30px;}
 .loginbox ul{margin-top:88px; margin-left:285px;}
 .loginbox ul li{margin-bottom:25px;}
@@ -50,7 +50,7 @@ h2{font-weight:normal;}
 
 /*top.html*/
 .header{height:88px;}
-.topleft{height:88px;background:url(../img/admin/topleft.jpg) no-repeat;float:left; width:300px;}
+.topleft{height:88px;background:url(../img/admin/topleft.jpg) no-repeat;float:left; width:186px;}
 .topleft img{margin-top:12px;margin-left:10px;}
 .topright{height:88px;background:url(../img/admin/topright.jpg) no-repeat right;float:right;}
 .nav{float:left;}
@@ -68,7 +68,7 @@ h2{font-weight:normal;}
 .topright ul li a{font-size:13px; color:#e9f2f7;}
 .topright ul li a:hover{color:#fff;}
 .topright ul li span{margin-top:2px;float:left;padding-right:3px;}
-.user{height:30px;background:url(../img/admin/ub1.png) repeat-x;clear:both;margin-top:10px;float:right; margin-right:12px;border-radius:30px; behavior:url(js/pie.htc); white-space:nowrap;position:relative;}
+.user{height:30px;background:url(../img/admin/ub1.png) repeat-x;clear:both;margin-top:10px;float:right; margin-right:12px;border-radius:30px; behavior:url(../js/pie.htc); white-space:nowrap;position:relative;}
 .user span{display:inline-block;padding-right:10px; background:url(../img/admin/user.png) no-repeat 15px 10px; line-height:30px; font-size:14px;color:#b8ceda; padding-left:20px; padding-left:35px;}
 .user b{display:inline-block;width:20px;height:18px; background:url(../img/admin/msg.png);text-align:center; font-weight:normal; color:#fff;font-size:14px;margin-right:13px; margin-top:7px; line-height:18px;}
 .user i{display:inline-block;margin-right:5px;font-style:normal;line-height:30px; font-size:14px;color:#b8ceda;}
@@ -100,10 +100,10 @@ h2{font-weight:normal;}
 .rightinfo{padding:8px;}
 .tools{clear:both; height:35px; margin-bottom:8px;}
 .toolbar{float:left;}
-.toolbar li{background:url(../img/admin/toolbg.gif) repeat-x; line-height:33px; height:33px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-right:5px;border-radius: 3px; behavior:url(js/pie.htc); cursor:pointer;}
+.toolbar li{background:url(../img/admin/toolbg.gif) repeat-x; line-height:33px; height:33px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-right:5px;border-radius: 3px; behavior:url(../js/pie.htc); cursor:pointer;}
 .toolbar li span{float:left; margin-left:10px; margin-right:5px; margin-top:5px;}
 .toolbar1{float:right;}
-.toolbar1 li{background:url(../img/admin/toolbg.gif) repeat-x; line-height:33px; height:33px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-left:5px;border-radius: 3px; behavior:url(js/pie.htc);}
+.toolbar1 li{background:url(../img/admin/toolbg.gif) repeat-x; line-height:33px; height:33px; border:solid 1px #d3dbde; float:left; padding-right:10px; margin-left:5px;border-radius: 3px; behavior:url(../js/pie.htc);}
 .toolbar1 li span{float:left; margin-left:10px; margin-right:5px; margin-top:5px;}
 .tablelist{border:solid 1px #cbcbcb; width:100%; clear:both;}
 .tablelist th{background:url(../img/admin/th.gif) repeat-x; height:34px; line-height:34px; border-bottom:solid 1px #b6cad2; text-indent:11px; text-align:left;}
@@ -192,7 +192,7 @@ h2{font-weight:normal;}
 
 
 /*tip*/
-.tip{width:485px; height:260px; position:absolute;top:10%; left:30%;background:#fcfdfd;box-shadow:1px 8px 10px 1px #9b9b9b;border-radius:1px;behavior:url(js/pie.htc); display:none; z-index:111111;}
+.tip{width:485px; height:260px; position:absolute;top:10%; left:30%;background:#fcfdfd;box-shadow:1px 8px 10px 1px #9b9b9b;border-radius:1px;behavior:url(../js/pie.htc); display:none; z-index:111111;}
 .tiptop{height:40px; line-height:40px; background:url(../img/admin/tcbg.gif)  repeat-x; cursor:pointer;}
 .tiptop span{font-size:14px; font-weight:bold; color:#fff;float:left; text-indent:20px;}
 .tiptop a{display:block; background:url(../img/admin/close.png) no-repeat; width:22px; height:22px;float:right;margin-right:7px; margin-top:10px; cursor:pointer;}
@@ -220,7 +220,7 @@ h2{font-weight:normal;}
 .error h2{font-size:22px; padding-left:154px;}
 .error p{padding-left:154px; line-height:35px;color:#717678;}
 .reindex{padding-left:154px;}
-.reindex a{width:115px; height:35px; font-size:14px; font-weight:bold; color:#fff; background:#3c95c8; display:block; line-height:35px; text-align:center;border-radius: 3px; behavior:url(js/pie.htc);margin-top:20px;}
+.reindex a{width:115px; height:35px; font-size:14px; font-weight:bold; color:#fff; background:#3c95c8; display:block; line-height:35px; text-align:center;border-radius: 3px; behavior:url(../js/pie.htc);margin-top:20px;}
 
 /*computer*/
 .comtitle{padding:20px; clear:both;}
@@ -228,7 +228,7 @@ h2{font-weight:normal;}
 .comtitle h2{font-size:14px; display:block; float:left;color:#2a3e93; background:#fff; padding-left:5px; padding-right:8px;}
 .rline{border-bottom:solid 1px #e5ecf0; height:10px; margin-left:50px;}
 .disklist{padding-left:20px; padding-right:20px;}
-.disklist li{width:275px;_width:270px;float:left; margin-right:10px;px;height:70px; cursor:pointer; margin-bottom:5px;border:solid 1px #fff;}
+.disklist li{width:275px;_width:270px;float:left; margin-right:10px;height:70px; cursor:pointer; margin-bottom:5px;border:solid 1px #fff;}
 .disklist li a{color:#000;}
 .disklist li:hover{background:#fcfcfc; border:solid 1px #e5ecf0;}
 .dleft{background:url(../img/admin/c02.png) no-repeat; height:50px; margin-left:12px; float:left; width:50px; margin-top:15px;}
@@ -294,14 +294,14 @@ h2{font-weight:normal;}
 .seachform li{float:left; margin-right:15px;}
 .seachform li label{padding-right:10px; float:left; line-height:32px;}
 .scinput{width:150px; height:32px; line-height:32px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df; background:url(../img/admin/inputbg.gif) repeat-x; text-indent:10px;}
-.scbtn{width:85px;height:35px; background:url(../img/admin/btnbg.png) no-repeat center; font-size:14px;font-weight:bold;color:#fff; cursor:pointer;border-radius:3px; behavior:url(js/pie.htc);}
+.scbtn{width:85px;height:35px; background:url(../img/admin/btnbg.png) no-repeat center; font-size:14px;font-weight:bold;color:#fff; cursor:pointer;border-radius:3px; behavior:url(../js/pie.htc);}
 
 /***** 输入框（无边框悬停状态） *****/
 .uew-select .uew-select-value{height:32px;padding:0 5px; margin-top:0px; margin-bottom:12px;line-height:32px;font-family:Tahoma,'微软雅黑','宋体';*font-family:'微软雅黑','宋体';color:#000;resize:none;border-width:1px;border-style:solid;border-color:#a7b5bc #ced9df #ced9df #a7b5bc;}
 .uew-border-flag,.uew-border-flag,textarea.uew-border-flag,.uew-select .uew-select-value.uew-border-flag{border-width:1px;border-style:solid;border-color:#bababa #e9e9e9 #e9e9e9 #bababa;}
 /***** 下拉框 *****/
 .uew-select{position:relative;}
-.uew-select .uew-select-value{z-index:1;position:relative;padding-right:20px;background:#fff;font-size:12px; text-indent:5px;background:url(../images/inputbg.gif) repeat-x;_background:none;_border:none;}
+.uew-select .uew-select-value{z-index:1;position:relative;padding-right:20px;background:#fff;font-size:12px; text-indent:5px;background:url(../img/admin/inputbg.gif) repeat-x;_background:none;_border:none;}
 .uew-select-value em{font-style:normal;}
 .uew-select .uew-icon{position:absolute;right:5px;top:10px;}
 .uew-select select{z-index:2;position:absolute;top:3px;_top:6px;cursor:pointer; height:28px;}
@@ -313,8 +313,8 @@ option{overflow:auto;}
 /*----------------------------------*
  * 	组件公用图标库         				*
  *----------------------------------*/
-.uew-icon,.ue-state-default .uew-icon{display:inline-block;width:16px;height:16px;background-image:url(../images/uew_icon.png);}
-.ue-state-hover .uew-icon{background-image:url(../images/uew_icon_hover.png);}
+.uew-icon,.ue-state-default .uew-icon{display:inline-block;width:16px;height:16px;background-image:url(../img/admin/uew_icon.png);}
+.ue-state-hover .uew-icon{background-image:url(../img/admin/uew_icon_hover.png);}
 .uew-icon-triangle-1-s{background-position:-80px 0;}
 
 .vocation,.usercity{float:left;}
