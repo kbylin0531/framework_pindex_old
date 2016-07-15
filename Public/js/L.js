@@ -6,56 +6,6 @@
 window.L = (function(){
     //开启严格模式节约时间
     "use strict";
-
-    //常见的兼容性问题处理
-    //处理console对象缺失
-    !window.console &&  (window.console = (function(){var c = {}; c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile = c.clear = c.exception = c.trace = c.assert = function(){}; return c;})());
-    //解决IE8不支持indexOf方法的问题
-    if (!Array.prototype.indexOf){
-        Array.prototype.indexOf = function(elt){
-            var len = this.length >>> 0;
-            var from = Number(arguments[1]) || 0;
-            from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-            if (from < 0) from += len;
-            for (; from < len; from++) {
-                if (from in this && this[from] === elt) return from;
-            }
-            return -1;
-        };
-    }
-    if (!Array.prototype.max){
-        Array.prototype.max = function(){
-            return Math.max.apply({},this)
-        };
-    }
-    if (!Array.prototype.min){
-        Array.prototype.min = function(){
-            return Math.min.apply({},this)
-        };
-    }
-
-    if (!String.prototype.trim){
-        String.prototype.trim=function()    {
-            return this.replace(/(^\s*)|(\s*$)/g,'');
-        };
-    }
-    if (!String.prototype.ltrim){
-        String.prototype.ltrim=function()    {
-            return this.replace(/(^\s*)/g,'');
-        };
-    }
-    if (!String.prototype.rtrim){
-        String.prototype.rtrim=function()    {
-            return this.replace(/(\s*$)/g,'');
-        };
-    }
-    if(!String.prototype.beginWith){
-        String.prototype.beginWith = function (chars) {
-            return this.indexOf(chars) === 0;
-        };
-    }
-
-
     var options = {
         //公共资源的URL路径
         'public_url':'',
@@ -68,7 +18,66 @@ window.L = (function(){
         //bits per input character. 8 - ASCII; 16 - Unicode};
         chrsz:8
     };
+    var readyStack = [];
+    //加载的类库
+    var _library = [];
 
+    //常见的兼容性问题处理
+    (function () {
+        //处理console对象缺失
+        !window.console &&  (window.console = (function(){var c = {}; c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile = c.clear = c.exception = c.trace = c.assert = function(){}; return c;})());
+        //解决IE8不支持indexOf方法的问题
+        if (!Array.prototype.indexOf){
+            Array.prototype.indexOf = function(elt){
+                var len = this.length >>> 0;
+                var from = Number(arguments[1]) || 0;
+                from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+                if (from < 0) from += len;
+                for (; from < len; from++) {
+                    if (from in this && this[from] === elt) return from;
+                }
+                return -1;
+            };
+        }
+        if (!Array.prototype.max){
+            Array.prototype.max = function(){
+                return Math.max.apply({},this)
+            };
+        }
+        if (!Array.prototype.min){
+            Array.prototype.min = function(){
+                return Math.min.apply({},this)
+            };
+        }
+
+        if (!String.prototype.trim){
+            String.prototype.trim=function()    {
+                return this.replace(/(^\s*)|(\s*$)/g,'');
+            };
+        }
+        if (!String.prototype.ltrim){
+            String.prototype.ltrim=function()    {
+                return this.replace(/(^\s*)/g,'');
+            };
+        }
+        if (!String.prototype.rtrim){
+            String.prototype.rtrim=function()    {
+                return this.replace(/(\s*$)/g,'');
+            };
+        }
+        if(!String.prototype.beginWith){
+            String.prototype.beginWith = function (chars) {
+                return this.indexOf(chars) === 0;
+            };
+        }
+
+    })();
+
+    var gettype = function (o) {
+            if(o===null) return "Null";
+            if(o===undefined) return "Undefined";
+            return Object.prototype.toString.call(o).slice(8,-1);
+    };
     var clone = function (obj) {
         // Handle the 3 simple types, and null or undefined
         // "number," "string," "boolean," "object," "function," 和 "undefined"
@@ -81,7 +90,6 @@ window.L = (function(){
             copy.setTime(obj.getTime());
             return copy;
         }
-
         // Handle Array
         if (obj instanceof Array) {
             copy = [];
@@ -103,7 +111,6 @@ window.L = (function(){
 
         throw new Error("Unable to copy obj! Its type isn't supported.");
     };
-
     var sha1 = (function () {
         /**
          * The standard SHA1 needs the input string to fit into a block
@@ -202,7 +209,6 @@ window.L = (function(){
 
         return (function (s) {return binb2hex(core_sha1(AlignSHA1(s)));});
     })();
-
     var md5 = (function () {
 
         var rotateLeft = function (lValue, iShiftBits) {
@@ -395,19 +401,14 @@ window.L = (function(){
             return temp.toLowerCase();
         });
     })();
-
-//-------------------------------------------- 其他函数 ----------------------------------------------------------------//
-    var readyStack = [];
-    //加载的类库
-    var _library = [];
-
-    var pathen = function (path) {
+    var _pathen = function (path) {
         if((path.length > 4) && (path.substr(0,4) !== 'http')){
             if(!options['public_url']) options['public_url'] = '/';//throw "Public uri not defined!";
             path = options['public_url']+path;
         }
         return path;
     };
+
 
     /**
      *
@@ -432,7 +433,6 @@ window.L = (function(){
          * domian   :http://192.168.1.29:8085/edu/Public/admin.php/Admin/System/Menu/PageManagement#dsds
          * ip       :http://edu.kbylin.com:8085/admin.php/Admin/System/Menu/PageManagement#dsds
          * what we should do is SPLIT '.php' from href
-         *
          * ps:location.hash
          */
         getBaseUri:function () {
@@ -455,29 +455,6 @@ window.L = (function(){
          */
         redirect:function (url) {
             location.href = url;
-        },
-        //get real path to this action
-        getPath:function () {
-            var path = location.pathname;
-            // var path = "/admin.php/Syse/dsds/dsdsds#dsds";
-            var index = path.indexOf('.php');
-            if(index >= 0 ) path = path.substring(index+4);
-            index = path.indexOf('?');
-            if(index >= 0) path = path.substring(0,index);
-            index = path.indexOf("#");
-            if(index >= 0) path = path.substring(0,index);
-            // console.log(index,location.pathname,path);
-            //trim '/'
-            var startindex = 0;
-            for(var i = 0 ; i < path.length; i ++){
-                if(path[i] === '/' || path[i] === ' '){
-                    startindex ++;
-                }else{
-                    break;
-                }
-            }
-
-            return "/"+path.substring(startindex);
         },
         //获得可视区域的大小
         getViewPort:function () {
@@ -550,80 +527,67 @@ window.L = (function(){
         },
         ieVersion:function () {
             var version;
-            if(version = navigator.userAgent.toLowerCase().match(/msie ([\d.]+)/)){
-                version = parseInt(version[1]);
-            }else{
-                version = 11;//如果是其他浏览器，默认判断为版本11
-            }
+            if(version = navigator.userAgent.toLowerCase().match(/msie ([\d.]+)/)) version = parseInt(version[1]);
+            else version = 12;//如果是其他浏览器，默认判断为版本12
             return version;
         }
     };
     /**
-     *
+     * judge
+     * @type {{}}
+     */
+    var J = {
+        /**
+         * 判断是否是Object类的实例,也可以指定参数二来判断是否是某一个类的实例
+         * 例如:isObject({}) 得到 [object Object] isObject([]) 得到 [object Array]
+         * @param obj
+         * @param classname
+         * @returns {boolean}
+         */
+        isObject:function (obj,classname) {
+            if(undefined === classname){
+                return obj instanceof Object;
+            }
+            return Object.prototype.toString.call(obj) === '[object '+classname+']';
+        },
+        /**
+         * 判断一个元素是否是数组
+         * @param el
+         * @returns {boolean}
+         */
+        isArray  : function (el) {
+            return Object.prototype.toString.call(el) === '[object Array]';
+        },
+        /**
+         * 判断元素是否是一个函数
+         * @param el
+         * @returns {boolean}
+         */
+        isFunc:function (el) {
+            return '[object Function]' === Object.prototype.toString.call(el);
+        },
+        /**
+         * 检查对象是否有指定的属性
+         * @param object {{}}
+         * @param prop 属性数组
+         * @return int 返回1表示全部属性都拥有,返回0表示全部都没有,部分有的情况下返回-1
+         */
+        hasProperty:function (object, prop) {
+            if(!this.isArray(prop)) prop = [prop];
+            var count = 0;
+            for(var i = 0; i < prop.length;i++){
+                if(object.hasOwnProperty(prop[i])) count++;
+            }
+            if(count === prop.length) return 1;
+            else if(count === 0) return 0;
+            else return -1;
+        }
+    };
+    /**
      * Utils
      * @type object
      */
     var U = {
-        dom:{
-            /**
-             * 检查dom对象是否存在指定的类名称
-             * @param obj
-             * @param cls
-             * @returns {Array|{index: number, input: string}}
-             */
-            hasClass:function(obj, cls) {
-                return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-            },
-            /**
-             * 添加类
-             * @param obj
-             * @param cls
-             */
-            addClass:function (obj, cls) {
-                if (!this.hasClass(obj, cls)) obj.className += " " + cls;
-            },
-            /**
-             * 删除类
-             * @param obj
-             * @param cls
-             */
-            removeClass: function (obj, cls) {
-                if (this.hasClass(obj, cls)) {
-                    var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-                    obj.className = obj.className.replace(reg, ' ');
-                }
-            },
-            /**
-             * 逆转类
-             * @param obj
-             * @param cls
-             */
-            toggleClass:function (obj,cls){
-                if(this.hasClass(obj,cls)){
-                    this.removeClass(obj, cls);
-                }else{
-                    this.addClass(obj, cls);
-                }
-            },
-            //支持多个类名的查找 http://www.cnblogs.com/rubylouvre/archive/2009/07/24/1529640.html
-            getElementsByClassName:function (className, element) {
-                var children = (element || document).getElementsByTagName('*');
-                var elements = [];
-
-                for (var i = 0; i < children.length; i++) {
-                    var child = children[i];
-                    var classNames = child.className.split(' ');
-                    for (var j = 0; j < classNames.length; j++) {
-                        if (classNames[j] == className) {
-                            elements.push(child);
-                            break;
-                        }
-                    }
-                }
-
-                return elements;
-            }
-        },
         cookie:{
             /**
              * set cookie
@@ -632,7 +596,7 @@ window.L = (function(){
              * @param expire
              * @param path
              */
-            set:function (name, value, expire,path) {
+            set:function (name, value, expire, path) {
                 // console.log(name, value, expire,path);
                 path = ";path="+(path ? path : '/');// all will access if not set the path
                 var cookie;
@@ -651,7 +615,7 @@ window.L = (function(){
                     }
                     cookie = name+"="+value+";expires="+_date.toUTCString();
                 }else{
-                    console.log([name, value, expire,path],"require the param 3 to be false/undefined/numeric !");
+                    console.log([name, value, expire,path],"expect 'expire' to be false/undefined/numeric !");
                 }
                 document.cookie = cookie+path;
             },
@@ -668,6 +632,147 @@ window.L = (function(){
                 }
                 return "";
             }
+        },
+        /**
+         * PHP中的parse_url 的javascript实现
+         * @param str json字符串
+         * @returns {Object}
+         */
+        parseUrl:function (str) {
+            var obj = {};
+            if(!str) return obj;
+
+            str = decodeURI(str);
+            var arr = str.split("&");
+            for(var i=0;i<arr.length;i++){
+                var d = arr[i].split("=");
+                obj[d[0]] = d[1]?d[1]:'';
+            }
+            return obj;
+        },
+        //注意安全性问题,并不推荐使用
+        toObject:function (str) {
+            if(str instanceof Object) return str;/* 已经是对象的清空下直接返回 */
+            return eval ("(" + str + ")");//将括号内的表达式转化为对象而不是作为语句来处理
+        },
+        /**
+         * 遍历对象
+         * @param object {{}|[]} 待遍历的对象或者数组
+         * @param itemcallback 返回
+         * @param userdata
+         */
+        each:function (object,itemcallback,userdata) {
+            var result = undefined;
+            if(J.isArray(object)){
+                for(var i=0; i < object.length; i++){
+                    result = itemcallback(object[i],i,userdata);
+                    if(result === '[break]') break;
+                    if(result === '[continue]') continue;
+                    if(result !== undefined) return result;//如果返回了什么东西解释实际返回了，当然除了命令外
+                }
+            }else if(J.isObject(object)){
+                for(var key in object){
+                    if(!object.hasOwnProperty(key)) continue;
+                    result = itemcallback(object[key],key,userdata);
+                    if(result === '[break]') break;
+                    if(result === '[continue]') continue;
+                    if(result !== undefined) return result;
+                }
+            }else{
+                console.log(object," is not an object or array,continue!");
+            }
+        },
+        /**
+         * 停止事件冒泡
+         * 如果提供了事件对象，则这是一个非IE浏览器,因此它支持W3C的stopPropagation()方法
+         * 否则，我们需要使用IE的方式来取消事件冒泡
+         * @param e
+         */
+        stopBubble: function (e) {
+            if ( e && e.stopPropagation ) {
+                e.stopPropagation();
+            } else {
+                window.event.cancelBubble = true;
+            }
+        },
+        /**
+         * 阻止事件默认行为
+         * 阻止默认浏览器动作(W3C)
+         * IE中阻止函数器默认动作的方式
+         * @param e
+         * @returns {boolean}
+         */
+        stopDefault: function ( e ) {
+            if ( e && e.preventDefault ) {
+                e.preventDefault();
+            } else {
+                window.event.returnValue = false;
+            }
+            return false;
+        }
+    };
+    /**
+     * DOM
+     * @type {{}}
+     */
+    var D = {
+        /**
+         * 检查dom对象是否存在指定的类名称
+         * @param obj
+         * @param cls
+         * @returns {Array|{index: number, input: string}}
+         */
+        hasClass:function(obj, cls) {
+            return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+        },
+        /**
+         * 添加类
+         * @param obj
+         * @param cls
+         */
+        addClass:function (obj, cls) {
+            if (!this.hasClass(obj, cls)) obj.className += " " + cls;
+        },
+        /**
+         * 删除类
+         * @param obj
+         * @param cls
+         */
+        removeClass: function (obj, cls) {
+            if (this.hasClass(obj, cls)) {
+                var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+                obj.className = obj.className.replace(reg, ' ');
+            }
+        },
+        /**
+         * 逆转类
+         * @param obj
+         * @param cls
+         */
+        toggleClass:function (obj,cls){
+            if(this.hasClass(obj,cls)){
+                this.removeClass(obj, cls);
+            }else{
+                this.addClass(obj, cls);
+            }
+        },
+        //支持多个类名的查找 http://www.cnblogs.com/rubylouvre/archive/2009/07/24/1529640.html
+        getElementsByClassName:function (className, element) {
+            var children = (element || document).getElementsByTagName('*');
+            var elements = [];
+
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                var classNames = child.className.split(' ');
+                for (var j = 0; j < classNames.length; j++) {
+                    if (classNames[j] == className) {
+                        elements.push(child);
+                        break;
+                    }
+                }
+            }
+
+            return elements;
         },
         setOpacity: function(ele, opacity) {
             if (ele.style.opacity != undefined) {
@@ -711,154 +816,8 @@ window.L = (function(){
                     }
                 }, 500);
             }
-        },
-        /**
-         * PHP中的parse_url 的javascript实现
-         * @param str json字符串
-         * @returns {Object}
-         */
-        parseUrl:function (str) {
-            var obj = {};
-            if(!str) return obj;
-
-            str = decodeURI(str);
-            var arr = str.split("&");
-            for(var i=0;i<arr.length;i++){
-                var d = arr[i].split("=");
-                obj[d[0]] = d[1]?d[1]:'';
-            }
-            return obj;
-        },
-        judge:{
-            /**
-             * 判断是否是Object类的实例,也可以指定参数二来判断是否是某一个类的实例
-             * 例如:isObject({}) 得到 [object Object] isObject([]) 得到 [object Array]
-             * @param obj
-             * @param classname
-             * @returns {boolean}
-             */
-            isObject:function (obj,classname) {
-                if(undefined === classname){
-                    return obj instanceof Object;
-                }
-                return Object.prototype.toString.call(obj) === '[object '+classname+']';
-            },
-            /**
-             * 判断一个元素是否是数组
-             * @param el
-             * @returns {boolean}
-             */
-            isArray  : function (el) {
-                return Object.prototype.toString.call(el) === '[object Array]';
-            },
-            /**
-             * 判断元素是否是一个函数
-             * @param el
-             * @returns {boolean}
-             */
-            isFunc:function (el) {
-                return '[object Function]' === Object.prototype.toString.call(el);
-            },
-            /**
-             * 检查对象是否有指定的属性
-             * @param object {{}}
-             * @param prop 属性数组
-             * @return int 返回1表示全部属性都拥有,返回0表示全部都没有,部分有的情况下返回-1
-             */
-            hasProperty:function (object, prop) {
-                if(!U.isArray(prop)) prop = [prop];
-                var count = 0;
-                for(var i = 0; i < prop.length;i++){
-                    if(object.hasOwnProperty(prop[i])) count++;
-                }
-                if(count === prop.length) return 1;
-                else if(count === 0) return 0;
-                else return -1;
-            }
-        },
-        //注意安全性问题,并不推荐使用
-        toObject:function (str) {
-            if(str instanceof Object) return str;/* 已经是对象的清空下直接返回 */
-            return eval ("(" + str + ")");//将括号内的表达式转化为对象而不是作为语句来处理
-        },
-        /**
-         * 遍历对象
-         * @param object {{}|[]} 待遍历的对象或者数组
-         * @param itemcallback 返回
-         * @param userdata
-         */
-        each:function (object,itemcallback,userdata) {
-            var result = undefined;
-            if(this.isArray(object)){
-                for(var i=0; i < object.length; i++){
-                    result = itemcallback(object[i],i,userdata);
-                    if(result === '[break]') break;
-                    if(result === '[continue]') continue;
-                    if(result !== undefined) return result;//如果返回了什么东西解释实际返回了，当然除了命令外
-                }
-            }else if(this.isObject(object)){
-                for(var key in object){
-                    if(!object.hasOwnProperty(key)) continue;
-                    result = itemcallback(object[key],key,userdata);
-                    if(result === '[break]') break;
-                    if(result === '[continue]') continue;
-                    if(result !== undefined) return result;
-                }
-            }else{
-                console.log(object," is not an object or array,continue!");
-            }
-        },
-        /**
-         * 复制一个数组或者对象
-         * @param array 要拷贝的数组或者对象
-         * @param isObject bool 是否是对象
-         * @returns array|{}
-         */
-        copy:function (array,isObject) {
-            var kakashi;
-            if(!isObject){
-                kakashi = [];
-                for(var i =0;i < array.length;i++){
-                    kakashi[i] = array[i];
-                }
-            }else{
-                kakashi = {};
-                U.each(array,function (item,key) {
-                    kakashi[key] = item;
-                });
-            }
-            return kakashi;
-        },
-        /**
-         * 停止事件冒泡
-         * 如果提供了事件对象，则这是一个非IE浏览器,因此它支持W3C的stopPropagation()方法
-         * 否则，我们需要使用IE的方式来取消事件冒泡
-         * @param e
-         */
-        stopBubble: function (e) {
-            if ( e && e.stopPropagation ) {
-                e.stopPropagation();
-            } else {
-                window.event.cancelBubble = true;
-            }
-        },
-        /**
-         * 阻止事件默认行为
-         * 阻止默认浏览器动作(W3C)
-         * IE中阻止函数器默认动作的方式
-         * @param e
-         * @returns {boolean}
-         */
-        stopDefault: function ( e ) {
-            if ( e && e.preventDefault ) {
-                e.preventDefault();
-            } else {
-                window.event.returnValue = false;
-            }
-            return false;
         }
     };
-
 
 
     //监听窗口状态变化
@@ -875,9 +834,13 @@ window.L = (function(){
     };
 
     return {
-        sha1:sha1,//sha1加密
-        md5:md5,//md5加密
-        guid:function() {
+        toJquery:function(selector){
+            (selector instanceof $) || (selector = $(selector));
+            return selector;
+        },
+        sha1: sha1,//sha1加密
+        md5: md5,//md5加密
+        guid: function () {
             var s = [];
             var hexDigits = "0123456789abcdef";
             for (var i = 0; i < 36; i++) {
@@ -888,80 +851,91 @@ window.L = (function(){
             s[8] = s[13] = s[18] = s[23] = "-";
             return s.join("");
         },//随机获取一个GUID
-        clone:clone,
-        init:function (config) {
-            U.each(config,function (item,key) {
+        clone: clone,
+        init: function (config) {
+            U.each(config, function (item, key) {
                 options.hasOwnProperty(key) && (options[key] = item);
             });
             return this;
         },
-        E:E,//environment
-        U:U,//utils
-        newElement:function (expression,inner) {
-            var tagname  = expression, classes, id;
-            if(expression.indexOf('.') > 0 ){
+        E: E,//environment
+        U: U,//utils
+        D:D,//dom
+        J:J,
+        newElement: function (expression, inner) {
+            var tagname = expression, classes, id;
+            if (expression.indexOf('.') > 0) {
                 classes = expression.split(".");
                 expression = classes.shift();
             }
-            if(expression.indexOf("#") > 0){
+            if (expression.indexOf("#") > 0) {
                 var tempid = expression.split("#");
                 tagname = tempid[0];
                 id = tempid[1];
-            }else{
+            } else {
                 tagname = expression
             }
             var element = document.createElement(tagname);
-            id && element.setAttribute('id',id);
-            if(classes){
+            id && element.setAttribute('id', id);
+            if (classes) {
                 var ct = '';
-                for (var i =0;i <classes.length; i++){
+                for (var i = 0; i < classes.length; i++) {
                     ct += classes[i];
-                    if(i !== classes.length - 1)  ct += ",";
+                    if (i !== classes.length - 1)  ct += ",";
                 }
-                element.setAttribute('class',ct);
+                element.setAttribute('class', ct);
             }
-            if(inner) element.innerHTML = inner;
+            if (inner) element.innerHTML = inner;
             return element;
         },//新建一个DOM元素
-        newSelf:function (context) {
-            var Y = function () {return {target:null};};
+        newSelf: function (context) {
+            var Y = function () {
+                return {target: null};
+            };
             var instance = new Y();
-            if(context){
-                U.each(context,function (item,key) {
+            if (context) {
+                U.each(context, function (item, key) {
                     instance[key] = item;
                 });
             }
             return instance;
         },//获取一个单例的操作对象作为上下文环境的深度拷贝
-        load:function (path,type) {
-            if(typeof path === 'object'){
-                for(var x in path){
-                    if(!path.hasOwnProperty(x)) continue;
+        load: function (path, type) {
+            if (typeof path === 'object') {
+                for (var x in path) {
+                    if (!path.hasOwnProperty(x)) continue;
                     this.load(path[x]);
                 }
-            }else{
-                if(undefined === type){
-                    var t = path.substring(path.length-3);//根据后缀自动判断类型
+            } else {
+                if (undefined === type) {
+                    var t = path.substring(path.length - 3);//根据后缀自动判断类型
 //                    console.log(path.substring(path.length-3));
-                    switch (t){
-                        case 'css':type = 'css';    break;
-                        case '.js':type = 'js';     break;
-                        case 'ico':type = 'ico';    break;
-                        default:throw "加载了错误的类型'"+t+"',加载的类型必须是[css,js,ico]";
+                    switch (t) {
+                        case 'css':
+                            type = 'css';
+                            break;
+                        case '.js':
+                            type = 'js';
+                            break;
+                        case 'ico':
+                            type = 'ico';
+                            break;
+                        default:
+                            throw "加载了错误的类型'" + t + "',加载的类型必须是[css,js,ico]";
                     }
                 }
                 //本页面加载过将不再重新载入
-                for(var i = 0; i < _library.length; i++) if(_library[i] === path) return;
+                for (var i = 0; i < _library.length; i++) if (_library[i] === path) return;
                 //现仅仅支持css,js,ico的类型
-                switch (type){
+                switch (type) {
                     case 'css':
-                        document.write('<link href="'+pathen(path)+'" rel="stylesheet" type="text/css" />');
+                        document.write('<link href="' + _pathen(path) + '" rel="stylesheet" type="text/css" />');
                         break;
                     case 'js':
-                        document.write('<script src="'+pathen(path)+'"  /></script>');
+                        document.write('<script src="' + _pathen(path) + '"  /></script>');
                         break;
                     case 'ico':
-                        document.write('<link rel="shortcut icon" href="'+pathen(path)+'" />');
+                        document.write('<link rel="shortcut icon" href="' + _pathen(path) + '" />');
                         break;
                     default:
                         return;
@@ -971,10 +945,12 @@ window.L = (function(){
             }
             return this;
         },
-        ready:function (callback) {readyStack.push(callback);},
-        JP:{},//jquery plugins
-        BP:{},//bootstrap plugins
-        C:{}//constant or config
+        ready: function (callback) {
+            readyStack.push(callback);
+        },
+        JP: {},//jquery plugins
+        BP: {},//bootstrap plugins
+        C: {},//constant or config// judge
     };
 })();
 // 加密测试
@@ -985,6 +961,7 @@ window.L = (function(){
 L.ready(function () {
 
     if(!jQuery) return;
+    var thisbody = $("body");
 
     ("contextmenu" in $) && (L.JP.contextmenu = {
         /**
@@ -997,7 +974,7 @@ L.ready(function () {
         create: function (menus, handler, onItem, before) {
             var instance = L.newSelf(this);
 
-            var id = 'cm_' + L.U.guid();
+            var id = 'cm_' + L.guid();
             var contextmenu = $("<div id='"+id+"'></div>");
             var ul = $("<ul class='dropdown-menu' role='menu'></ul>");
             contextmenu.append(ul);
@@ -1033,9 +1010,189 @@ L.ready(function () {
             return instance;
         },
         bind: function (selector) {
-            (selector instanceof $) || (selector = $(selector));
+            selector = L.toJquery(selector);
             selector.contextmenu(this.target);
         }
     });
+
+    ("DataTable" in $) && (L.BP.datatables = (function () {
+        return {
+            _api: null,//datatable的API对象
+            _ele: null, // datatable的jquery对象 dtElement
+            _cr: null,//当前操作的行,可能是一群行 current_row
+            //设置之后的操作所指定的DatatableAPI对象
+            bind: function (dtJquery, options) {
+                (dtJquery instanceof $) || (dtJquery = $(dtJquery));
+                var newinstance = L.newSelf(this);
+                newinstance._ele = dtJquery;
+
+                var convention = {
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                };
+                L.U.each(options,function (value, key) {
+                    convention[key] = value;
+                });
+                // console.log(convention);
+                newinstance._api = dtJquery.DataTable(convention);
+                return newinstance;
+                /* this 对象同于链式调用 */
+            },
+            //为tableapi对象加载数据,参数二用于清空之前的数据
+            load: function (data, clear) {
+                if (!this._api) return console.log("No Datatable API binded!");
+                if (undefined === clear || clear) this._api.clear();//clear为true或者未设置时候都会清除之前的表格内容
+                this._api.rows.add(data).draw();
+                return this;
+            },
+            //表格发生了draw事件时设置调用函数(表格加载,翻页都会发生draw事件)
+            onDraw: function (callback) {
+                if (!this._ele) return console.log("No Datatables binded!");
+                this._ele.on('draw.dt', function (event, settings) {
+                    callback(event, settings);
+                });
+                return this;
+            },
+            //获取表格指定行的数据
+            data: function (element) {
+                this._cr = element;
+                return this._api.row(element).data();
+            },
+            update: function (newdata, line) {
+                (line === undefined) && (line = this._cr);
+                if (line) {
+                    if (L.judge.isArray(line)) {
+                        for (var i = 0; i < line.length; i++) {
+                            this.update(newdata, line[i]);
+                        }
+                    } else {
+                        //注意:如果出现这样的错误"DataTables warning: table id=[dtable 实际的表的ID] - Requested unknown parameter ‘acceptId’ for row X 第几行出现了错误 "
+                        return this._api.row(line).data(newdata).draw(false);
+                    }
+                }
+            }
+        };
+    })());
+
+
+
+    var bootmodal = {
+        /**
+         * 创建一个Modal对象,会将HTML中指定的内容作为自己的一部分拐走
+         * @param selector 要把哪些东西添加到modal中的选择器
+         * @param option modal配置
+         * @returns {*}
+         */
+        create: function (selector, option) {
+            var config = {
+                'title': null,
+                'confirmText': '提交',
+                'cancelText': '取消',
+                'fade': true,
+
+                //确认和取消的回调函数
+                'confirm': null,
+                'cancel': null,
+
+                'show': null,//即将显示
+                'shown': null,//显示完毕
+                'hide': null,//即将隐藏
+                'hidden': null,//隐藏完毕
+
+                'backdrop': 'static',
+                'keyboard': true
+            };
+            L.U.each(option,function (v,k) {
+                if(config.hasOwnProperty(k)) config[k] = v;
+            });
+
+            var instance = L.newSelf(this);
+            var id = 'modal_' + L.guid();
+
+            var modal = $('<div class="modal" id="' + id + '" aria-hidden="true" role="dialog"></div>');
+            if (typeof config['backdrop'] !== "string") config['backdrop'] = config['backdrop'] ? 'true' : 'false';
+            if (config['fade']) modal.addClass('fade');
+            modal.attr('data-backdrop', config['backdrop']);
+            modal.attr('data-keyboard', config['keyboard'] ? 'true' : 'false');
+            thisbody.append(modal);
+
+            var dialog = $('<div class="modal-dialog"></div>');
+            modal.append(dialog);
+            var content = $('<div class="modal-content"></div>');
+            dialog.append(content);
+
+            //设置title部分
+            var header = $('<div class="modal-header"></div>');
+            var close = $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
+            header.append(close);
+            content.append(header);
+
+            //设置体部分
+            var body = $('<div class="modal-body"></div>');
+            body.appendTo(content);
+            body.append(L.toJquery(selector));
+
+            //设置足部
+            var cancel = $('<button type="button" class="btn btn-default cancelbtn" data-dismiss="modal">' + config['cancelText'] + '</button>');
+            var confirm = $('<button type="button" class="btn btn-primary confirmbtn">' + config['confirmText'] + '</button>');
+            content.append($('<div class="modal-footer"></div>').append(cancel).append(confirm));
+
+            //确认和取消事件注册
+            confirm.click(instance.confirm);
+            cancel.click(instance.cancel);
+            instance.target = modal.modal('hide');
+
+            config['title'] && instance.title(config['title']);
+
+            //事件注册
+            L.U.each(['show', 'shown', 'hide', 'hidden'], function (eventname) {
+                modal.on(eventname + '.bs.modal', function () {
+                    // console.log(eve
+                    //handle the element size change while window resizedntname,config[eventname]);
+                    config[eventname] && (config[eventname])();
+                });
+            });
+            return instance;
+        },
+        //get the element of this.target while can not found in global jquery selector
+        getElement: function (eleselector) {
+            return this.target.find(eleselector);
+        },
+        confirm: function () {
+            console.log('You click the confirm button,but not resister anything!')
+        },
+        cancel: function () {
+            console.log('You click the cancel button,but not resister anything!')
+        },
+        onConfirm: function (callback) {
+            // this.confirm = callback;
+            // var btn = this.target.find(".confirmbtn");//it worked worse ,why?
+            this.target.find(".confirmbtn").unbind("click").click(callback);
+            return this;
+        },
+        onCancel: function (callback) {
+            // this.cancel = callback;
+            this.target.find(".cancelbtn").unbind("click").click(callback);
+            return this;
+        },
+        //update title
+        title: function (newtitle) {
+            var title = this.target.find(".modal-title");
+            if (!title.length) {
+                var h = L.newSelf('h4.modal-title');
+                h.innerHTML = newtitle;
+                this.target.find(".modal-header").append(h);
+            }
+            title.text(newtitle);
+            return this;
+        },
+        show: function () {
+            this.target.modal('show');
+            return this;
+        },
+        hide: function () {
+            this.target.modal('hide');
+            return this;
+        }
+    };
 
 });

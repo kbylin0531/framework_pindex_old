@@ -6,13 +6,24 @@
  * Time: 4:54 PM
  */
 namespace Application\Admin\Controller;
+use Application\System\Library\Service\LoginService;
 use Application\System\Library\Service\MenuService;
+use Application\System\Model\AccountModel;
 use PLite\Debugger;
+use PLite\Library\Logger;
 
 class Index extends Admin{
 
     public function index(){
-//        $this->assign('title','后台管理系统');
+        $uid = (new LoginService())->getLoginInfo('id');
+
+        $accountModel = new AccountModel();
+        $list = $accountModel->getAccountList(1);
+        if(false === $list){
+            Logger::write($accountModel->error());
+            $list = [];
+        }
+        $this->assign('account_list',$list);
         $this->show();
     }
 

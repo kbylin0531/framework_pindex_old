@@ -1,25 +1,36 @@
 <extend file="/Admin/View/Common/admin.html"/>
 
 <block name="content">
-    <div class="block-area" >
+    <div class="block-area">
         <h3 class="block-title">微信账号列表</h3>
         <div class="table-responsive overflow">
             <table id="table" class="table table-bordered table-hover tile">
                 <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>原始ID</th>
+                    <th>微信号</th>
+                    <th>Token</th>
+                    <th>类型</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Jhon</td>
-                    <td>Makinton</td>
-                    <td>@makinton</td>
-                </tr>
+                <volist name="account_list" id="vo">
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.origin_id}</td>
+                        <td>{$vo.wechat}</td>
+                        <td>{$vo.token}</td>
+                        <td>{$vo.type}</td>
+                        <td>
+                            <a href="__CONTROLLER__/editAccount?aid={$vo.id}">Edit</a>&nbsp;
+                            <a href="__CONTROLLER__/removeAccount?aid={$vo.id}">Delete</a>&nbsp;
+                        </td>
+                    </tr>
+                </volist>
                 </tbody>
             </table>
         </div>
