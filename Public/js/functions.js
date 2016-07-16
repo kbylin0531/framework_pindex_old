@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var docbody = $("body");
 
-    var public_url = typeof L !== 'undefined'?L.C.public_url:'../';
+    var public_url = typeof L !== 'undefined'?L.V.public_url:'../';
 
     /* --------------------------------------------------------
      Template Settings

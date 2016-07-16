@@ -56,7 +56,7 @@ textarea.form-control {
 }
 
 .select .form-control {
-    height: auto;
+    height: 30px;/* auto */
 }
 
 .select .form-control:hover, .select .form-control:focus  {
@@ -73,10 +73,9 @@ select:not([multiple]){
    text-indent: 1px;
    text-overflow: '';
    line-height: normal !important;
-   background-image: url(../img/select-bg.png);
-   background-repeat: no-repeat;
-   background-position: right center;
-   color: 
+   /*background-image: url(../img/select-bg.png);*/
+   /*background-repeat: no-repeat;*/
+   /*background-position: right center;*/
 }
 
 .ie9 select:not([multiple]){
@@ -155,12 +154,12 @@ input[type="checkbox"], input[type="radio"]{
     Buttons
 -----------------------------------------------------------*/
 .btn:not(.form-control) {
-   background: -moz-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);
-   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0.3)), color-stop(100%, rgba(0,0,0,1)));
-   background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);
-   background: -o-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);
-   background: -ms-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);
-   background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);
+   /*background: -moz-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);*/
+   /*background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0.3)), color-stop(100%, rgba(0,0,0,1)));*/
+   /*background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);*/
+   /*background: -o-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);*/
+   /*background: -ms-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);*/
+   /*background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 100%);*/
    border: 0;
    color: #fff;
 }

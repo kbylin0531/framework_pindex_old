@@ -26,8 +26,8 @@
                         <td>{$vo.token}</td>
                         <td>{$vo.type}</td>
                         <td>
-                            <a href="__CONTROLLER__/editAccount?aid={$vo.id}">Edit</a>&nbsp;
-                            <a href="__CONTROLLER__/removeAccount?aid={$vo.id}">Delete</a>&nbsp;
+                            <a href="javascript:void(0);" class="edit" data-id="{$vo.id}">Edit</a>&nbsp;
+                            <a href="javascript:void(0);" class="delete" data-id="{$vo.id}">Delete</a>&nbsp;
                         </td>
                     </tr>
                 </volist>
@@ -35,11 +35,60 @@
             </table>
         </div>
     </div>
+
+    <form class="form-horizontal hidden" id="edit" role="form">
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">公众号类型</label>
+            <div class="col-md-10">
+                <select class="select" name="type">
+                    <option value="0" selected>普通订阅号</option>
+                    <option value="1">微信认证订阅号</option>
+                    <option value="2">普通服务号</option>
+                    <option value="3">微信认证服务号</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">公众号名称</label>
+            <div class="col-md-10">
+                <input type="text" name="name" value="" class="form-control input-sm">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">原始ID</label>
+            <div class="col-md-10">
+                <input type="text" name="origin_id" value="" class="form-control input-sm">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">微信号</label>
+            <div class="col-md-10">
+                <input type="text" name="wechat" value="" class="form-control input-sm">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">凭证(Token)</label>
+            <div class="col-md-10">
+                <input type="text" name="token" value="" class="form-control input-sm">
+            </div>
+        </div>
+    </form>
 </block>
 <block name="script">
     <script>
         $(function () {
-            $('#table').dataTable({});
+            var dtable = L.P.datatable().create('#table');
+            var modal = L.P.modal().create("#edit");
+
+            $(".edit").click(function () {
+                modal.title('Edit').show();
+            });
+
+            $(".delete").click(function () {
+            });
+
+
         });
     </script>
 
