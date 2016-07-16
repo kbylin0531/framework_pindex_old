@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<!--[if IE 9 ]><html class="ie9"><![endif]-->
-<!--[if (gt IE 9)|(!IE)]><!--><html><!--<![endif]-->
+<!--[if IE 9 ]>
+<html class="ie9"><![endif]-->
+<!--[if (gt IE 9)|(!IE)]><!-->
+<html><!--<![endif]-->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -11,34 +13,92 @@
     <title>PLite</title>
 
     <!-- CSS -->
-    <link href="__PUBLIC__/css/L.css" rel="stylesheet">
     <link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet">
     <link href="__PUBLIC__/css/animate.min.css" rel="stylesheet">
     <link href="__PUBLIC__/css/font-awesome.min.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/form.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/calendar.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/media-player.css" rel="stylesheet">
     <link href="__PUBLIC__/css/style.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/icons.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/generics.css" rel="stylesheet">
     <block name="style"></block>
     <!-- L -->
     <script src="__PUBLIC__/js/L.js"></script>
 </head>
 <body id="skin-blur-violate">
-<include file="/Admin/View/Common/Include/header.html" />
-<div class="clearfix"></div>
-<section id="main" class="p-relative" role="main">
-    <!-- Sidebar -->
-    <include file="/Admin/View/Common/Include/sidebar.html" />
+    <include file="/Admin/View/Common/Include/header.html"/>
+    <div class="clearfix"></div>
+    <section id="main" class="p-relative" role="main">
+        <!-- Sidebar -->
+        <include file="/Admin/View/Common/Include/sidebar.html"/>
 
-    <!-- Content -->
-    <section id="content" class="container">
-        <include file="/Admin/View/Common/Include/title.html" />
-        <block name="content"></block>
+        <!-- Content -->
+        <section id="content" class="container">
+            <include file="/Admin/View/Common/Include/title.html"/>
+            <block name="content"></block>
+        </section>
+        <br/><br/>
     </section>
-    <br/><br/>
-</section>
+
+
+    <!-- SETTING -->
+    <a id="settings" href="#changeSkin" data-toggle="modal">
+        <i class="fa fa-gear"></i> Skin
+    </a>
+    <div class="modal fade" id="changeSkin" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Change Template Skin</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row template-skins">
+                        <a data-skin="skin-blur-violate" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/violate.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-lights" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/lights.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-city" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/city.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-greenish" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/greenish.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-night" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/night.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-blue" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/blue.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-sunny" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/sunny.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/cloth" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/cloth.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/tectile" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/tectile.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-chrome" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/chrome.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-ocean" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/ocean.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-sunset" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/sunset.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-yellow" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/yellow.jpg" alt="">
+                        </a>
+                        <a data-skin="skin/blur-kiwi" class="col-sm-2 col-xs-4" href="">
+                            <img src="__PUBLIC__/img/skin/kiwi.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 
 <!-- Javascript Libraries -->
 <!-- jQuery -->
@@ -56,7 +116,8 @@
 <script src="__PUBLIC__/js/autosize.min.js"></script> <!-- Textarea autosize -->
 <!--  Form Related:furthur -->
 <script src="__PUBLIC__/js/validation/validate.min.js"></script> <!-- jQuery Form Validation Library -->
-<script src="__PUBLIC__/js/validation/validationEngine.min.js"></script> <!-- jQuery Form Validation Library - requirred with above js -->
+<script src="__PUBLIC__/js/validation/validationEngine.min.js"></script>
+<!-- jQuery Form Validation Library - requirred with above js -->
 <script src="__PUBLIC__/js/select.min.js"></script> <!-- Custom Select -->
 <script src="__PUBLIC__/js/chosen.min.js"></script> <!-- Custom Multi Select -->
 <script src="__PUBLIC__/js/datetimepicker.min.js"></script> <!-- Date & Time Picker -->
@@ -69,23 +130,18 @@
 <script src="__PUBLIC__/js/editor2.min.js"></script> <!-- WYSIWYG Editor -->
 <script src="__PUBLIC__/js/markdown.min.js"></script> <!-- Markdown Editor -->
 
-<!-- Other -->
-<script src="__PUBLIC__/js/calendar.min.js"></script>
-<script src="__PUBLIC__/js/bootstrap-contextmenu.js"></script>
-<script src="__PUBLIC__/js/datatables/js/jquery.dataTables.min.js"></script>
 
 <!-- Calendar -->
 <script src="__PUBLIC__/js/calendar.min.js"></script> <!-- Calendar -->
 <!--<script src="__PUBLIC__/js/feeds.min.js"></script>-->
 
-<script>
-    L.V = {
-        public_url:'__PUBLIC__'
-    };
-</script>
+<!-- Other -->
+<script src="__PUBLIC__/js/bootstrap-contextmenu.js"></script>
+<script src="__PUBLIC__/js/datatables/js/jquery.dataTables.min.js"></script>
+
 <!-- All JS functions -->
 <script src="__PUBLIC__/js/functions.js"></script>
 <block name="script"></block>
-</body>
+
 </html>
 

@@ -1,101 +1,76 @@
 $(document).ready(function () {
     var docbody = $("body");
-
-    var public_url = typeof L !== 'undefined'?L.V.public_url:'../';
-
-    /* --------------------------------------------------------
-     Template Settings
-     -----------------------------------------------------------*/
-    var settings = '<a id="settings" href="#changeSkin" data-toggle="modal">' +
-        '<i class="fa fa-gear"></i> Change Skin' +
-        '</a>' +
-        '<div class="modal fade" id="changeSkin" tabindex="-1" role="dialog" aria-hidden="true">' +
-        '<div class="modal-dialog modal-lg">' +
-        '<div class="modal-content">' +
-        '<div class="modal-header">' +
-        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-        '<h4 class="modal-title">Change Template Skin</h4>' +
-        '</div>' +
-        '<div class="modal-body">' +
-        '<div class="row template-skins">' +
-        '<a data-skin="skin-blur-violate" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/violate.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-lights" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/lights.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-city" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/city.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-greenish" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/greenish.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-night" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/night.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-blue" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/blue.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-sunny" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/sunny.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/cloth" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/cloth.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/tectile" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/tectile.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-chrome" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/chrome.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-ocean" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/ocean.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-sunset" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/sunset.jpg" alt="">' +
-        '</a>' +
-        '<a data-skin="skin/blur-yellow" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/yellow.jpg" alt="">' +
-        '</a>' +
-        '<a  data-skin="skin/blur-kiwi" class="col-sm-2 col-xs-4" href="">' +
-        '<img src="' + public_url + '/img/skin/kiwi.jpg" alt="">' +
-        '</a>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
-    $('#main').prepend(settings);
+    var sidebar  = $('#sidebar');
 
     docbody.on('click', '.template-skins > a', function (e) {
         e.preventDefault();
         var skin = $(this).data('skin');
         docbody.attr('id', skin);
         $('#changeSkin').modal('hide');
-    });
+    }).on('click touchstart', '#menu-toggle', function (e) {
+        /* --------------------------------------------------------
+         Sidebar + Menu
+         -----------------------------------------------------------*/
+        e.preventDefault();
+        $('html').toggleClass('menu-active');
+        sidebar.toggleClass('toggled');
+        //$('#content').toggleClass('m-0');
+    }).on('click touchstart', '.tile .tile-info-toggle', function (e) {
+        /* --------------------------------------------------------
+         Chart Info
+         -----------------------------------------------------------*/
+        e.preventDefault();
+        $(this).closest('.tile').find('.chart-info').toggle();
+    }).on('click touchstart', '.drawer-toggle', function (e) {
+        /* --------------------------------------------------------
+         Messages + Notifications
+         -----------------------------------------------------------*/
+        e.preventDefault();
+        var drawer = $(this).attr('data-drawer');
 
+        $('.drawer:not("#' + drawer + '")').removeClass('toggled');
+        var d = $('#' + drawer);
+        if (d.hasClass('toggled')) {
+            d.removeClass('toggled');
+        }
+        else {
+            d.addClass('toggled');
+        }
+    }).on('click touchstart', '.drawer-close', function () {
+        $(this).closest('.drawer').removeClass('toggled');
+        $('.drawer-toggle').removeClass('open');
+    }).on('click touchstart', '.chat-list-toggle', function () {
+        /* --------------------------------------------------------
+         Chat
+         -----------------------------------------------------------*/
+        $(this).closest('.chat').find('.chat-list').toggleClass('toggled');
+    }).on('click touchstart', '.box-switcher', function (e) {
+        /* --------------------------------------------------------
+         Login + Sign up
+         -----------------------------------------------------------*/
+        e.preventDefault();
+        var box = $(this).attr('data-switch');
+        $(this).closest('.box').toggleClass('active');
+        $('#' + box).closest('.box').addClass('active');
+    }).on('click touchstart', '.chat .chat-header .btn', function (e) {
+        e.preventDefault();
+        $('.chat .chat-list').removeClass('toggled');
+        $(this).closest('.chat').toggleClass('toggled');
+    });
     /* --------------------------------------------------------
      Components
      -----------------------------------------------------------*/
     /* Textarea */
-    if ($('.auto-size')[0]) {
-        $('.auto-size').autosize();
-    }
+    $('.auto-size').autosize();
 
     //Select
-    if ($('.select')[0]) {
-        $('.select').selectpicker();
-    }
+    $('.select').selectpicker();
 
     //Sortable
-    if ($('.sortable')[0]) {
-        $('.sortable').sortable();
-    }
+    $('.sortable').sortable();
 
     //Tag Select
-    if ($('.tag-select')[0]) {
-        $('.tag-select').chosen();
-    }
+    $('.tag-select').chosen();
 
     /* Tab */
     if ($('.tab')[0]) {
@@ -106,9 +81,7 @@ $(document).ready(function () {
     }
 
     /* Collapse */
-    if ($('.collapse')[0]) {
-        $('.collapse').collapse();
-    }
+    $('.collapse').collapse();
 
     /* Accordion */
     $('.panel-collapse').on('shown.bs.collapse', function () {
@@ -118,21 +91,7 @@ $(document).ready(function () {
     });
 
     //Popover
-    if ($('.pover')[0]) {
-        $('.pover').popover();
-    }
-
-    /* --------------------------------------------------------
-     Sidebar + Menu
-     -----------------------------------------------------------*/
-    var sidebar  = $('#sidebar');
-    /* Menu Toggle */
-    docbody.on('click touchstart', '#menu-toggle', function (e) {
-        e.preventDefault();
-        $('html').toggleClass('menu-active');
-        sidebar.toggleClass('toggled');
-        //$('#content').toggleClass('m-0');
-    });
+    $('.pover').popover();
 
     /* Active Menu */
     sidebar.find('.menu-item').hover(function () {
@@ -145,13 +104,6 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    /* --------------------------------------------------------
-     Chart Info
-     -----------------------------------------------------------*/
-    docbody.on('click touchstart', '.tile .tile-info-toggle', function (e) {
-        e.preventDefault();
-        $(this).closest('.tile').find('.chart-info').toggle();
-    });
 
     /* --------------------------------------------------------
      -----------------------------------------------------------*/
@@ -170,27 +122,7 @@ $(document).ready(function () {
     /* --------------------------------------------------------
      Custom Scrollbar
      -----------------------------------------------------------*/
-    if ($('.overflow')[0]) {
-        $('.overflow').niceScroll();
-    }
-
-    /* --------------------------------------------------------
-     Messages + Notifications
-     -----------------------------------------------------------*/
-
-    docbody.on('click touchstart', '.drawer-toggle', function (e) {
-        e.preventDefault();
-        var drawer = $(this).attr('data-drawer');
-
-        $('.drawer:not("#' + drawer + '")').removeClass('toggled');
-        var d = $('#' + drawer);
-        if (d.hasClass('toggled')) {
-            d.removeClass('toggled');
-        }
-        else {
-            d.addClass('toggled');
-        }
-    });
+    $('.overflow').niceScroll();
 
     //Close when click outside
     $(document).on('mouseup touchstart', function (e) {
@@ -199,25 +131,23 @@ $(document).ready(function () {
             $('.drawer').removeClass('toggled');
             $('.drawer-toggle').removeClass('open');
         }
+
+
+        var container = $('.chat, .chat .chat-list');
+        if (container.has(e.target).length === 0) {
+            container.removeClass('toggled');
+        }
     });
-
-    //Close
-    docbody.on('click touchstart', '.drawer-close', function () {
-        $(this).closest('.drawer').removeClass('toggled');
-        $('.drawer-toggle').removeClass('open');
-    });
-
-
     /* --------------------------------------------------------
-     Calendar
+     Calendar - Sidebar
      -----------------------------------------------------------*/
-    //Sidebar
-    if ($('#sidebar-calendar')[0]) {
+    var sidecalendat = $('#sidebar-calendar');
+    if (sidecalendat.length) {
         var date = new Date();
         var d = date.getDate();
         var m = date.getMonth();
         var y = date.getFullYear();
-        $('#sidebar-calendar').fullCalendar({
+        sidecalendat.fullCalendar({
             editable: false,
             events: [],
             header: {
@@ -226,37 +156,35 @@ $(document).ready(function () {
         });
     }
     //Content widget
-    if ($('#calendar-widget')[0]) {
-        $('#calendar-widget').fullCalendar({
-            header: {
-                left: 'title',
-                right: 'prev, next',
-                //right: 'month,basicWeek,basicDay'
+    $('#calendar-widget').fullCalendar({
+        header: {
+            left: 'title',
+            right: 'prev, next'
+            //right: 'month,basicWeek,basicDay'
+        },
+        editable: true,
+        events: [
+            {
+                title: 'All Day Event',
+                start: new Date(y, m, 1)
             },
-            editable: true,
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: new Date(y, m, 1)
-                },
-                {
-                    title: 'Long Event',
-                    start: new Date(y, m, d - 5),
-                    end: new Date(y, m, d - 2)
-                },
-                {
-                    title: 'Repeat Event',
-                    start: new Date(y, m, 3),
-                    allDay: false
-                },
-                {
-                    title: 'Repeat Event',
-                    start: new Date(y, m, 4),
-                    allDay: false
-                }
-            ]
-        });
-    }
+            {
+                title: 'Long Event',
+                start: new Date(y, m, d - 5),
+                end: new Date(y, m, d - 2)
+            },
+            {
+                title: 'Repeat Event',
+                start: new Date(y, m, 3),
+                allDay: false
+            },
+            {
+                title: 'Repeat Event',
+                start: new Date(y, m, 4),
+                allDay: false
+            }
+        ]
+    });
     /* --------------------------------------------------------
      RSS Feed widget
      -----------------------------------------------------------*/
@@ -270,34 +198,14 @@ $(document).ready(function () {
     //     });
     // }
 
-    /* --------------------------------------------------------
-     Chat
-     -----------------------------------------------------------*/
-    $(function () {
-        docbody.on('click touchstart', '.chat-list-toggle', function () {
-            $(this).closest('.chat').find('.chat-list').toggleClass('toggled');
-        });
 
-        docbody.on('click touchstart', '.chat .chat-header .btn', function (e) {
-            e.preventDefault();
-            $('.chat .chat-list').removeClass('toggled');
-            $(this).closest('.chat').toggleClass('toggled');
-        });
-
-        $(document).on('mouseup touchstart', function (e) {
-            var container = $('.chat, .chat .chat-list');
-            if (container.has(e.target).length === 0) {
-                container.removeClass('toggled');
-            }
-        });
-    });
 
     /* --------------------------------------------------------
      Form Validation
      -----------------------------------------------------------*/
-    if ($("[class*='form-validation']")[0]) {
-        $("[class*='form-validation']").validationEngine();
-
+    var _validation = $(".form-validation");
+    if (_validation.length) {
+        _validation.validationEngine();
         //Clear Prompt
         docbody.on('click', '.validation-clear', function (e) {
             e.preventDefault();
@@ -315,52 +223,34 @@ $(document).ready(function () {
     }
 
     //RGB
-    if ($('.color-picker-rgb')[0]) {
-        $('.color-picker-rgb').colorpicker({
-            format: 'rgb'
-        });
-    }
-
+    $('.color-picker-rgb').colorpicker({
+        format: 'rgb'
+    });
     //RGBA
-    if ($('.color-picker-rgba')[0]) {
-        $('.color-picker-rgba').colorpicker({
-            format: 'rgba'
-        });
-    }
+    $('.color-picker-rgba').colorpicker({
+        format: 'rgba'
+    });
 
     //Output Color
-    if ($('[class*="color-picker"]')[0]) {
-        $('[class*="color-picker"]').colorpicker().on('changeColor', function (e) {
-            var colorThis = $(this).val();
-            $(this).closest('.color-pick').find('.color-preview').css('background', e.color.toHex());
-        });
-    }
-
+    color_picker.colorpicker().on('changeColor', function (e) {
+        $(this).closest('.color-pick').find('.color-preview').css('background', e.color.toHex());
+    });
     /* --------------------------------------------------------
      Date Time Picker
      -----------------------------------------------------------*/
     //Date Only
-    if ($('.date-only')[0]) {
-        $('.date-only').datetimepicker({
-            pickTime: false
-        });
-    }
-
+    $('.date-only').datetimepicker({
+        pickTime: false
+    });
     //Time only
-    if ($('.time-only')[0]) {
-        $('.time-only').datetimepicker({
-            pickDate: false
-        });
-    }
-
+    $('.time-only').datetimepicker({
+        pickDate: false
+    });
     //12 Hour Time
-    if ($('.time-only-12')[0]) {
-        $('.time-only-12').datetimepicker({
-            pickDate: false,
-            pick12HourFormat: true
-        });
-    }
-
+    $('.time-only-12').datetimepicker({
+        pickDate: false,
+        pick12HourFormat: true
+    });
     $('.datetime-pick input:text').on('click', function () {
         $(this).closest('.datetime-pick').find('.add-on i').click();
     });
@@ -368,27 +258,21 @@ $(document).ready(function () {
     /* --------------------------------------------------------
      Input Slider
      -----------------------------------------------------------*/
-    if ($('.input-slider')[0]) {
-        $('.input-slider').slider().on('slide', function (ev) {
-            $(this).closest('.slider-container').find('.slider-value').val(ev.value);
-        });
-    }
+    $('.input-slider').slider().on('slide', function (ev) {
+        $(this).closest('.slider-container').find('.slider-value').val(ev.value);
+    });
     /* --------------------------------------------------------
      WYSIWYE Editor + Markedown
      -----------------------------------------------------------*/
     //Markedown
-    if ($('.markdown-editor')[0]) {
-        $('.markdown-editor').markdown({
-            autofocus: false,
-            savable: false
-        });
-    }
+    $('.markdown-editor').markdown({
+        autofocus: false,
+        savable: false
+    });
     //WYSIWYE Editor
-    if ($('.wysiwye-editor')[0]) {
-        $('.wysiwye-editor').summernote({
-            height: 200
-        });
-    }
+    $('.wysiwye-editor').summernote({
+        height: 200
+    });
     /* --------------------------------------------------------
      Media Player
      -----------------------------------------------------------*/
@@ -426,45 +310,46 @@ $(document).ready(function () {
     /* ---------------------------
      Vertical tab
      --------------------------- */
-    $('.tab-vertical').each(function () {
-        var tabHeight = $(this).outerHeight();
-        var tabContentHeight = $(this).closest('.tab-container').find('.tab-content').outerHeight();
+    var tabVertical = $('.tab-vertical');
+    if(tabVertical.length){
+        tabVertical.each(function () {
+            var tabHeight = $(this).outerHeight();
+            var tabContentHeight = $(this).closest('.tab-container').find('.tab-content').outerHeight();
 
-        if ((tabContentHeight) > (tabHeight)) {
-            $(this).height(tabContentHeight);
-        }
-    });
-
-    docbody.on('click touchstart', '.tab-vertical li', function () {
-        var tabVertical = $(this).closest('.tab-vertical');
-        tabVertical.height('auto');
-
-        var tabHeight = tabVertical.outerHeight();
-        var tabContentHeight = $(this).closest('.tab-container').find('.tab-content').outerHeight();
-
-        if ((tabContentHeight) > (tabHeight)) {
-            tabVertical.height(tabContentHeight);
-        }
-    });
-
-    /* --------------------------------------------------------
-     Login + Sign up
-     -----------------------------------------------------------*/
-    (function () {
-        docbody.on('click touchstart', '.box-switcher', function (e) {
-            e.preventDefault();
-            var box = $(this).attr('data-switch');
-            $(this).closest('.box').toggleClass('active');
-            $('#' + box).closest('.box').addClass('active');
+            if ((tabContentHeight) > (tabHeight)) {
+                $(this).height(tabContentHeight);
+            }
         });
-    })();
+        tabVertical.find("li").on('click touchstart',function () {
+            tabVertical.height('auto');
+
+            var tabHeight = tabVertical.outerHeight();
+            var tabContentHeight = $(this).closest('.tab-container').find('.tab-content').outerHeight();
+
+            if ((tabContentHeight) > (tabHeight)) {
+                tabVertical.height(tabContentHeight);
+            }
+        });
+        // docbody.on('click touchstart', '.tab-vertical li', function () {
+        //     var tabVertical = $(this).closest('.tab-vertical');
+        //     tabVertical.height('auto');
+        //
+        //     var tabHeight = tabVertical.outerHeight();
+        //     var tabContentHeight = $(this).closest('.tab-container').find('.tab-content').outerHeight();
+        //
+        //     if ((tabContentHeight) > (tabHeight)) {
+        //         tabVertical.height(tabContentHeight);
+        //     }
+        // });
+    }
+
+
 
 
     /* --------------------------------------------------------
      Checkbox + Radio
      -----------------------------------------------------------*/
-    if ($('input:checkbox, input:radio')[0]) {
-
+    if ($('input:checkbox, input:radio').length) {
         //Checkbox + Radio skin
         $('input:checkbox:not([data-toggle="buttons"] input, .make-switch input), input:radio:not([data-toggle="buttons"] input)').iCheck({
             checkboxClass: 'icheckbox_minimal',
@@ -521,10 +406,7 @@ $(document).ready(function () {
 
     // Output the day, date, month and year
     // $('#date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
-    var d = document.getElementById("date");
-    if(d){
-        d.innerHTML = dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear();
-    }
+    document.getElementById("date").innerHTML = dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear();
 
 
     var sec = document.getElementById("sec");
@@ -545,8 +427,7 @@ $(document).ready(function () {
     /* --------------------------------------------------------
      Tooltips
      -----------------------------------------------------------*/
-    var tooltips = $('.tooltips');
-    tooltips[0] && tooltips.tooltip();
+    $('.tooltips').tooltip();
 
     /* --------------------------------------------------------
      Animate numbers
