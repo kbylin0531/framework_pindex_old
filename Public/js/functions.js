@@ -2,6 +2,11 @@ $(document).ready(function () {
     var docbody = $("body");
     var sidebar  = $('#sidebar');
 
+    /* --------------------------------------------------------
+     MAC Hack - Mac only
+     -----------------------------------------------------------*/
+    if (navigator.userAgent.indexOf('Mac') > 0) docbody.addClass('mac-os');
+
     docbody.on('click', '.template-skins > a', function (e) {
         e.preventDefault();
         var skin = $(this).data('skin');
@@ -133,7 +138,7 @@ $(document).ready(function () {
         }
 
 
-        var container = $('.chat, .chat .chat-list');
+        container = $('.chat, .chat .chat-list');
         if (container.has(e.target).length === 0) {
             container.removeClass('toggled');
         }
@@ -389,11 +394,6 @@ $(document).ready(function () {
     }
 
     /* --------------------------------------------------------
-     MAC Hack - Mac only
-     -----------------------------------------------------------*/
-    if (navigator.userAgent.indexOf('Mac') > 0) docbody.addClass('mac-os');
-
-    /* --------------------------------------------------------
      Date Time Widget
      -----------------------------------------------------------*/
     var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -406,8 +406,8 @@ $(document).ready(function () {
 
     // Output the day, date, month and year
     // $('#date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
-    document.getElementById("date").innerHTML = dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear();
-
+    var _d = document.getElementById("date");
+    if(_d) _d.innerHTML = dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear();
 
     var sec = document.getElementById("sec");
     var min = document.getElementById("min");
@@ -421,8 +421,6 @@ $(document).ready(function () {
         min.innerHTML =  minutes < 10 ? "0"+minutes : minutes;
         hour.innerHTML =  hours < 10 ? "0"+hours : hours ;
     }, 1000);
-
-
 
     /* --------------------------------------------------------
      Tooltips
