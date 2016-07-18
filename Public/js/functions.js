@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var docbody = $("body");
     var sidebar  = $('#sidebar');
+    var v;//template var
 
     /* --------------------------------------------------------
      MAC Hack - Mac only
@@ -66,16 +67,16 @@ $(document).ready(function () {
      Components
      -----------------------------------------------------------*/
     /* Textarea */
-    $('.auto-size').autosize();
+    // if((v = $('.auto-size')).length) v.autosize();
 
     //Select
-    $('.select').selectpicker();
+    // if((v = $('.select')).length) v.selectpicker();
 
     //Sortable
-    $('.sortable').sortable();
+    if((v = $('.sortable')).length) v.sortable();
 
     //Tag Select
-    $('.tag-select').chosen();
+    // if((v = $('.tag-select')).length) v.chosen();
 
     /* Tab */
     if ($('.tab')[0]) {
@@ -86,7 +87,7 @@ $(document).ready(function () {
     }
 
     /* Collapse */
-    $('.collapse').collapse();
+    if((v = $('.collapse')).length) v.collapse();
 
     /* Accordion */
     $('.panel-collapse').on('shown.bs.collapse', function () {
@@ -96,7 +97,7 @@ $(document).ready(function () {
     });
 
     //Popover
-    $('.pover').popover();
+    // if((v = $('.pover')).length) v.popover();
 
     /* Active Menu */
     sidebar.find('.menu-item').hover(function () {
@@ -127,7 +128,6 @@ $(document).ready(function () {
     /* --------------------------------------------------------
      Custom Scrollbar
      -----------------------------------------------------------*/
-    $('.overflow').niceScroll();
 
     //Close when click outside
     $(document).on('mouseup touchstart', function (e) {
@@ -161,7 +161,7 @@ $(document).ready(function () {
         });
     }
     //Content widget
-    $('#calendar-widget').fullCalendar({
+    if((v = $('#calendar-widget')).length) v.fullCalendar({
         header: {
             left: 'title',
             right: 'prev, next'
@@ -222,60 +222,60 @@ $(document).ready(function () {
      `Color Picker
      -----------------------------------------------------------*/
     //Default - hex
-    var color_picker = $(".color-picker");
-    if (color_picker[0]) {
-        color_picker.colorpicker();
-    }
 
     //RGB
-    $('.color-picker-rgb').colorpicker({
+    if((v = $('.color-picker-rgb')).length) v.colorpicker({
         format: 'rgb'
     });
     //RGBA
-    $('.color-picker-rgba').colorpicker({
+    if((v = $('.color-picker-rgba')).length) $('.color-picker-rgba').colorpicker({
         format: 'rgba'
     });
 
     //Output Color
-    color_picker.colorpicker().on('changeColor', function (e) {
+    if((v = $('.color-picker')).length) $(".color-picker").colorpicker().on('changeColor', function (e) {
         $(this).closest('.color-pick').find('.color-preview').css('background', e.color.toHex());
     });
     /* --------------------------------------------------------
      Date Time Picker
      -----------------------------------------------------------*/
-    //Date Only
-    $('.date-only').datetimepicker({
-        pickTime: false
-    });
-    //Time only
-    $('.time-only').datetimepicker({
-        pickDate: false
-    });
-    //12 Hour Time
-    $('.time-only-12').datetimepicker({
-        pickDate: false,
-        pick12HourFormat: true
-    });
-    $('.datetime-pick input:text').on('click', function () {
-        $(this).closest('.datetime-pick').find('.add-on i').click();
-    });
+    // (function () {
+    //     //Date Only
+    //     if((v = $('.date-only')).length){
+    //         v.datetimepicker({
+    //             pickTime: false
+    //         });
+    //         //Time only
+    //         $('.time-only').datetimepicker({
+    //             pickDate: false
+    //         });
+    //         //12 Hour Time
+    //         $('.time-only-12').datetimepicker({
+    //             pickDate: false,
+    //             pick12HourFormat: true
+    //         });
+    //         $('.datetime-pick input:text').on('click', function () {
+    //             $(this).closest('.datetime-pick').find('.add-on i').click();
+    //         });
+    //     }
+    // })();
 
     /* --------------------------------------------------------
      Input Slider
      -----------------------------------------------------------*/
-    $('.input-slider').slider().on('slide', function (ev) {
+    if((v = $('.input-slider')).length) v.slider().on('slide', function (ev) {
         $(this).closest('.slider-container').find('.slider-value').val(ev.value);
     });
     /* --------------------------------------------------------
      WYSIWYE Editor + Markedown
      -----------------------------------------------------------*/
     //Markedown
-    $('.markdown-editor').markdown({
+    if((v = $('.markdown-editor')).length) v.markdown({
         autofocus: false,
         savable: false
     });
     //WYSIWYE Editor
-    $('.wysiwye-editor').summernote({
+    if((v = $('.wysiwye-editor')).length) v.summernote({
         height: 200
     });
     /* --------------------------------------------------------
@@ -409,23 +409,25 @@ $(document).ready(function () {
     var _d = document.getElementById("date");
     if(_d) _d.innerHTML = dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear();
 
-    var sec = document.getElementById("sec");
-    var min = document.getElementById("min");
-    var hour = document.getElementById("hours");
-    setInterval(function () {
-        var date = new Date();
-        var seconds = date.getSeconds();
-        var minutes = date.getMinutes();
-        var hours = date.getHours();
-        sec.innerHTML =  seconds < 10 ? "0"+seconds : seconds;
-        min.innerHTML =  minutes < 10 ? "0"+minutes : minutes;
-        hour.innerHTML =  hours < 10 ? "0"+hours : hours ;
-    }, 1000);
+    var sec,min,hour;
+    if(sec = document.getElementById("sec")){/* it will be null if not found */
+        min = document.getElementById("min");
+        hour = document.getElementById("hours");
+        setInterval(function () {
+            var date = new Date();
+            var seconds = date.getSeconds();
+            var minutes = date.getMinutes();
+            var hours = date.getHours();
+            sec.innerHTML =  seconds < 10 ? "0"+seconds : seconds;
+            min.innerHTML =  minutes < 10 ? "0"+minutes : minutes;
+            hour.innerHTML =  hours < 10 ? "0"+hours : hours ;
+        }, 1000);
+    }
 
     /* --------------------------------------------------------
-     Tooltips
+     Tooltips - based on bootstrap
      -----------------------------------------------------------*/
-    $('.tooltips').tooltip();
+    // $('.tooltips').tooltip();
 
     /* --------------------------------------------------------
      Animate numbers
@@ -452,3 +454,233 @@ $(document).ready(function () {
     });
 
 });
+L.P.initJsMap({
+    'input_mask':'/js/input-mask.min.js',
+    'chosen':'/js/chosen.min.js',
+    'select':'/js/select.min.js',
+    'autosize':'/js/autosize.min.js',
+    'datetimepicker':'/js/datetimepicker.min.js'
+});
+//components - no plugin reply
+L.alert = {
+    _alert:null,
+    _alert_t:0,
+    clear:function () {
+        this._alert_t && clearTimeout(this._alert_t);
+    },
+    /**
+     * @param msg string
+     * @param type string
+     * @param icon bool
+     */
+    show:function (msg, type, icon) {
+        type || (type = 'info');
+        var html = '';
+        if(icon){
+            switch (type){
+                case 'success':
+                    html = '<i class="icon">&#61845;</i>';
+                    break;
+                case 'warning':
+                    html = '<i class="icon">&#61730;</i>';
+                    break;
+                case 'danger':
+                    html = '<i class="icon">&#61907;</i>';
+                    break;
+                case 'info':
+                default:
+                    html = '<i class="icon">&#61770;</i>';//info
+            }
+            icon = 'alert-icon';
+        }else{
+            icon = '';
+        }
+
+        var env = this;
+        if(!this._alert){
+            this._alert = $('<div class="block-area"><div class="alert alert-'+type+' '+icon+'">'+msg+html+'</div></div>');
+            $(".container").prepend(this._alert);
+            this._alert.click(function () {
+                env._alert.fadeOut();
+            });
+        }else{
+            this.clear();
+            this._alert.css("display","").find(".alert").attr("class","alert alert-"+type+' '+icon).html(msg+html);
+        }
+        this._alert_t = setTimeout(function () {
+            env._alert.fadeOut();
+        },2000)
+    },
+    success:function (msg, icon) { this.show(msg,'success', icon);},
+    info:function (msg, icon) { this.show(msg,'info', icon);},
+    warning:function (msg, icon) { this.show(msg,'warning', icon);},
+    danger:function (msg, icon) { this.show(msg,'danger', icon);}
+};
+L.list = {
+    /**
+     * @param title List title
+     * @param colspan sum of columns
+     * @returns {L.list}
+     */
+    create:function (title,colspan) {
+        title = title?'<h4 class="m-l-5">'+title+'</h4>':'';
+        colspan = colspan?colspan:12;
+        var instance = L.NS(this);
+        instance.target = $('<div class="col-md-'+colspan+'">'+title+'<div class="listview narrow"></div></div>');
+        return instance;
+    },
+    load:function (data) {
+        if(this.target){
+            var html = '';
+            var profile = '',time = '';
+            for(var i = 0;i < data.length; i++){
+                profile = ('profile' in data[i])?'<div class="pull-left"><img width="40" src="'+data[i].profile+'" alt=""></div>':'';
+                time = ('time' in data[i])?'<div class="media-body"><small class="text-muted">'+data[i].time+'</small><br>':'';
+                html += '<div class="media p-l-5">'+profile+time+'<a class="overflow" href="">'+data[i].content+'</a></div></div>';
+            }
+            this.target.find(".listview").html(html);
+        }else{
+            console.log('No target!');
+        }
+        return this;
+    },
+    //some bug to fix
+    prepend:function (data) {
+        if(this.target){
+            var profile = ('profile' in data)?'<div class="pull-left"><img width="40" src="'+data.profile+'" alt=""></div>':'';
+            var time = ('time' in data)?'<div class="media-body"><small class="text-muted">'+data.time+'</small><br>':'';
+            var html ='<div class="media p-l-5">'+profile+time+'<a class="overflow" href="">'+data.content+'</a></div></div>';
+            this.target.find(".listview").prepend(html);
+        }else{
+            console.log('No target!');
+        }
+        return this;
+    },
+    outerHTML:function () {
+        if(this.target){
+            return this.target.prop("outerHTML");
+        }else{
+            console.log('No target!');
+            return null;
+        }
+    }
+};
+L.pane = {
+    create:function (items,append,isv) {
+        var tabs = '';
+        var tabpanes = '';
+        for(var i = 0 ;i < items.length;i++){
+            if(0 === i){
+                tabs += '<li><a href="#'+items[i].id+'">'+items[i].title+'</a></li>';
+            }else{
+                tabs += '<li><a href="#'+items[i].id+'">'+items[i].title+'</a></li>';
+            }
+            var raw = $("#"+items[i].id);
+            tabpanes += '<div class="tab-pane" id="'+items[i].id+'">'+raw.html()+'</div>';
+            raw.remove();
+        }
+        var cls_c = 'tab-container tile';
+        var cls_u = 'nav tab nav-tabs';
+        var cls_b = 'tab-content';
+        if(isv){
+            cls_c += " media";
+            cls_u += " pull-left tab-vertical";
+            cls_b += " media-body";
+        }
+
+        var html = $('<div class="'+cls_c+'"><ul class="'+cls_u+'">'+tabs+'</ul><div class="'+cls_b+'">'+tabpanes+'</div></div>');
+
+        L.jq(append).after(html).remove();
+        setTimeout(function () {
+            html.find("li:first>a").trigger("click")
+        },167);
+    }
+};
+L.accordion = {
+    create:function (items,id) {
+        var html = '<div class="accordion tile"><div class="panel-group block" id="'+id+'">';
+        for(var i = 0 ;i < items.length;i++) {
+            var tg = L.jq("#"+items[i].id);
+            html += '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">'+
+                '<a class="accordion-toggle active" data-toggle="collapse" data-parent="'+id+'" href="#'+items[i].id+'">'+
+                items[i].title+'</a></h3></div>'+
+                '<div id="'+items[i].id+'" class="panel-collapse collapse in"><div class="panel-body">'+tg.html()+'</div></div></div>';
+            tg.remove();
+        }
+        html = $(html+"</div></div>");
+        L.jq("#"+id).after(html).remove();
+        setTimeout(function () {
+            html.find(".panel:first a").trigger("click")
+        },167);
+    }
+};
+L.tooltip = {
+    /**
+     *
+     * @param selector
+     * @param title
+     * @param place left right bottom yop
+     */
+    init:function (selector, title, place) {
+        place || (place = 'bottom');
+        L.jq(selector).attr("data-toggle","tooltip").attr("data-placement",place).attr("title",title).tooltip();
+    }
+};
+L.popover = {
+    /**
+     * @param selector
+     * @param title
+     * @param content
+     * @param hover it will hover to pop over if set to true
+     * @param place left right bottom yop
+     */
+    init:function (selector,title,content,hover,place) {
+        place || (place = 'bottom');
+        selector = L.jq(selector);
+        hover && selector.attr("data-trigger","hover");
+        selector.attr("data-toggle","popover").attr("data-placement",place).attr("title",title).attr("data-content",content).popover();
+    }
+};
+//single plugin based
+L.inputMask = {
+    init:function (params) {
+        if(L.O.isFunc(params)){
+            L.load(L.P.JsMap['input_mask'],null,params);
+        }else{
+            //key as selector,value as params
+            L.U.each(params,function (v,k) {
+                mask.apply(L.jq(k),v);
+            });
+        }
+    }
+};
+L.scroll = {
+    init:function (selector) {
+        L.jq(selector).niceScroll();
+    }
+};
+L.chosen = {
+    init:function (selector,option) {
+        L.P.initlize(selector,option,'chosen');
+    }
+};
+L.select = {
+    init:function (selector,option) {
+        L.P.initlize(selector,option,'selectpicker','select');
+    }
+};
+L.autosize = {
+    init:function (selector,option) {
+        L.P.initlize(selector,option,'autosize');
+    }
+};
+L.datetimepicker = {
+    init:function (selector,option) {
+        L.P.initlize(selector,option,'datetimepicker');
+    }
+};
+L.colorpicker = {
+    init:function (selector,option) {
+        L.P.initlize(selector,option,'colorpicker');
+    }
+};
