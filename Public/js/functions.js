@@ -66,17 +66,10 @@ $(document).ready(function () {
     /* --------------------------------------------------------
      Components
      -----------------------------------------------------------*/
-    /* Textarea */
-    // if((v = $('.auto-size')).length) v.autosize();
-
-    //Select
-    // if((v = $('.select')).length) v.selectpicker();
 
     //Sortable
     if((v = $('.sortable')).length) v.sortable();
 
-    //Tag Select
-    // if((v = $('.tag-select')).length) v.chosen();
 
     /* Tab */
     if ($('.tab')[0]) {
@@ -190,20 +183,6 @@ $(document).ready(function () {
             }
         ]
     });
-    /* --------------------------------------------------------
-     RSS Feed widget
-     -----------------------------------------------------------*/
-    // if ($('#news-feed')[0]) {
-    //     $('#news-feed').FeedEk({
-    //         FeedUrl: 'http://rss.cnn.com/rss/edition.rss',
-    //         MaxCount: 5,
-    //         ShowDesc: false,
-    //         ShowPubDate: true,
-    //         DescCharacterLimit: 0
-    //     });
-    // }
-
-
 
     /* --------------------------------------------------------
      Form Validation
@@ -218,65 +197,12 @@ $(document).ready(function () {
         });
     }
 
-    /* --------------------------------------------------------
-     `Color Picker
-     -----------------------------------------------------------*/
-    //Default - hex
-
-    //RGB
-    if((v = $('.color-picker-rgb')).length) v.colorpicker({
-        format: 'rgb'
-    });
-    //RGBA
-    if((v = $('.color-picker-rgba')).length) $('.color-picker-rgba').colorpicker({
-        format: 'rgba'
-    });
-
-    //Output Color
-    if((v = $('.color-picker')).length) $(".color-picker").colorpicker().on('changeColor', function (e) {
-        $(this).closest('.color-pick').find('.color-preview').css('background', e.color.toHex());
-    });
-    /* --------------------------------------------------------
-     Date Time Picker
-     -----------------------------------------------------------*/
-    // (function () {
-    //     //Date Only
-    //     if((v = $('.date-only')).length){
-    //         v.datetimepicker({
-    //             pickTime: false
-    //         });
-    //         //Time only
-    //         $('.time-only').datetimepicker({
-    //             pickDate: false
-    //         });
-    //         //12 Hour Time
-    //         $('.time-only-12').datetimepicker({
-    //             pickDate: false,
-    //             pick12HourFormat: true
-    //         });
-    //         $('.datetime-pick input:text').on('click', function () {
-    //             $(this).closest('.datetime-pick').find('.add-on i').click();
-    //         });
-    //     }
-    // })();
 
     /* --------------------------------------------------------
      Input Slider
      -----------------------------------------------------------*/
     if((v = $('.input-slider')).length) v.slider().on('slide', function (ev) {
         $(this).closest('.slider-container').find('.slider-value').val(ev.value);
-    });
-    /* --------------------------------------------------------
-     WYSIWYE Editor + Markedown
-     -----------------------------------------------------------*/
-    //Markedown
-    if((v = $('.markdown-editor')).length) v.markdown({
-        autofocus: false,
-        savable: false
-    });
-    //WYSIWYE Editor
-    if((v = $('.wysiwye-editor')).length) v.summernote({
-        height: 200
     });
     /* --------------------------------------------------------
      Media Player
@@ -335,17 +261,6 @@ $(document).ready(function () {
                 tabVertical.height(tabContentHeight);
             }
         });
-        // docbody.on('click touchstart', '.tab-vertical li', function () {
-        //     var tabVertical = $(this).closest('.tab-vertical');
-        //     tabVertical.height('auto');
-        //
-        //     var tabHeight = tabVertical.outerHeight();
-        //     var tabContentHeight = $(this).closest('.tab-container').find('.tab-content').outerHeight();
-        //
-        //     if ((tabContentHeight) > (tabHeight)) {
-        //         tabVertical.height(tabContentHeight);
-        //     }
-        // });
     }
 
 
@@ -454,12 +369,23 @@ $(document).ready(function () {
     });
 
 });
-L.P.initJsMap({
+
+
+
+
+//-------------------------------- plugins ------------------------------------------------------------------------//
+// place of replacement suggest in <p id="..."></p>
+L.P.jsMap({
     'input_mask':'/js/input-mask.min.js',
     'chosen':'/js/chosen.min.js',
     'select':'/js/select.min.js',
     'autosize':'/js/autosize.min.js',
-    'datetimepicker':'/js/datetimepicker.min.js'
+    'datetimepicker':'/js/datetimepicker.min.js',
+    'fileupload':'/js/fileupload.min.js',
+    'colorpicker':'/js/colorpicker.min.js',
+    'spinner':'/js/spinner.min.js',
+    'wysiwyg':'/js/editor2.min.js',
+    'markdown':'/js/markdown.min.js'
 });
 //components - no plugin reply
 L.alert = {
@@ -659,14 +585,90 @@ L.scroll = {
         L.jq(selector).niceScroll();
     }
 };
-L.chosen = {
+L.chosen = L.tagSelect = {
     init:function (selector,option) {
         L.P.initlize(selector,option,'chosen');
+    },
+    /**
+     * update element
+     * @param selector
+     * @param options
+     */
+    editElement:function (selector, options) {
+        selector = $(selector);
+        L.O.notempty("multiple",options) && selector.attr("multiple",'');
+        L.O.notempty("placeholder",options) && selector.attr("data-placeholder",options.placeholder);
+        if(L.O.notempty("data",options)){
+            var html = '',disable;
+            L.U.each(options.data,function (item) {
+                disable = L.O.notempty("disabled",item)?' disabled ':'';
+                html += '<option value="'+item.value+disable+'">'+item.title+'</option>';
+            });
+            selector.html(html);
+        }
+        return selector;
     }
 };
+//form-components
 L.select = {
     init:function (selector,option) {
         L.P.initlize(selector,option,'selectpicker','select');
+    },
+    /**
+     * @param options
+     * @returns {string}
+     */
+    _createOpt:function (options) {
+        var html = '';
+        L.U.each(options,function (option) {
+            if(L.O.notempty("divider" , option)){/* it will be diliver if exist in object */
+                html += '<option data-divider="true">&nbsp;</option>';
+            }else{
+                var disable = L.O.notempty(option,"disabled")?' disabled="disabled" ':'';
+                var icon = L.O.notempty("icon", option)?' data-icon="fa fa-'+option.icon+'" ':'';//just for font-awsome
+                html += '<option value="'+option.value+'"'+disable+icon+'>'+option.title+'</option>';
+            }
+        });
+        return html;
+    },
+    /**
+     * create an selector but do not init because jquery may not loaded
+     * @param config array
+     * @param place selector
+     * @param cls string
+     */
+    create:function (config, place, cls) {
+        cls || (cls = "select");
+        var html;
+        if(L.O.notempty("multiple" , config)){
+            if(L.O.notempty("multiple_top",config)){
+                html = '<select class="'+cls+'" multiple data-selected-text-format="count>'+config['multiple_top']+'">';
+            }else{
+                html = '<select class="'+cls+'" multiple>';
+            }
+        }else{
+            html = '<select class="'+cls+'">';
+        }
+
+
+        if(("options" in config) && (config.options.length)){
+            var env = this;
+            if(L.O.notempty("group" , config)){
+                L.U.each(config.options,function (group) {
+                    html += '<optgroup label="'+group.lable+'">';
+                    html += env._createOpt(group.options)+'</optgroup>';
+                });
+            }else{
+                /* config is options */
+                html += this._createOpt(config.options);
+            }
+        }
+        html = $(html+"</select>");
+        if(place){
+            place = L.jq(place);
+            place.after(html).remove();//place it after and delete self
+        }
+        return html;
     }
 };
 L.autosize = {
@@ -676,11 +678,180 @@ L.autosize = {
 };
 L.datetimepicker = {
     init:function (selector,option) {
-        L.P.initlize(selector,option,'datetimepicker');
+        L.P.initlize((selector || {
+            '.date-only': {pickTime: false},
+            '.time-only': {pickDate: false},
+            '.datetime': {}
+        }),option,'datetimepicker');
+    },
+    /**
+     *
+     * @param name
+     * @param place_id
+     * @param format 0 date 1 time
+     */
+    create:function (name,place_id,format) {
+        var clsnm = '';
+        switch (parseInt(format || 0)){
+            case 2:
+                clsnm = 'datetime';
+                format = 'yyyy/MM/dd hh:mm:ss';
+                break;
+            case 1:
+                clsnm  = 'date-only';
+                format = 'yyyy/MM/dd';
+                break;
+            case 0:
+            default:
+                clsnm = 'time-only';
+                format = 'hh:mm:ss';
+        }
+        var html = '<div class="input-icon datetime-pick '+clsnm+'"><input data-format="'+format+'" name="'+name+'" type="text" class="form-control input-sm"/><span class="add-on"><i class="sa-plus"></i></span></div>';
+        L.jq("#"+place_id).after($(html)).remove();
     }
 };
 L.colorpicker = {
+    /**
+     * output color
+     $(".color-picker").colorpicker().on('changeColor', function (e) {e.color.toHex();}
+     */
     init:function (selector,option) {
-        L.P.initlize(selector,option,'colorpicker');
+        L.P.initlize((selector || {
+            '.color-picker-hex':{},
+            '.color-picker-rgb':{format: 'rgb'},
+            '.color-picker-rgba':{format: 'rgba'}
+        }),option,'colorpicker');
+
+        //Output Color
+        $(".colorpicker").on('changeColor', function (e) {
+            $(this).closest('.color-pick').find('.color-preview').css('background', e.color.toHex());
+        });
+    },
+    /**
+     * @param name
+     * @param place_id
+     * @param type  'rgb' 'rgba' 'hex'
+     */
+    create:function (name,place_id,type) {
+        if(!type){
+            type = 'color-picker color-picker-hex';
+        }else{
+            type = 'color-picker color-picker-'+type;
+        }
+        var html = '<div class="color-pick input-icon">' +
+            '<input class="form-control colorpicker '+type+' input-sm" type="text" name="'+name+'" />'+
+            '<span class="color-preview"></span><span class="add-on"><i class="sa-plus"></i></span></div>';
+        L.jq("#"+place_id).after($(html)).remove();
     }
 };
+L.fileupload = {
+    init: function (id, option, style) {
+        var env = this;
+        L.load(L.P.jsMap('fileupload'), 'js', function () {
+            if (L.O.isObj(id)) {
+                L.U.each(id, function (config, _id) {
+                    option = L.O.notempty("option", config) ? config.option : null;
+                    style = L.O.notempty("style", config) ? config.style : 0;
+                    env._initItem(_id, option, style);
+                });
+            } else {
+                style || (style = 0);
+                env._initItem(id, option, style);
+            }
+        });
+    },
+    _initItem: function (id, option, style) {
+        var st = L.O.notempty("select", option) ? option['select'] : 'Select file';
+        var ct = L.O.notempty("change", option) ? option['change'] : 'Change';
+        var rt = L.O.notempty("remove", option) ? option['remove'] : 'Remove';
+        var common = '<span class="btn btn-file btn-alt btn-sm"><span class="fileupload-new">' + st + '</span><span class="fileupload-exists">' + ct + '</span><input type="file" name="' + id + '" id="' + id + '" />';
+        var html;
+        switch (parseInt(style || 0)) {
+            //small image preview
+            case 2:
+                html = '<div class="fileupload fileupload-new" data-provides="fileupload">' +
+                    '<div class="fileupload-new thumbnail small form-control m-r-5"></div>' +
+                    '<div class="fileupload-preview form-control fileupload-exists thumbnail small"></div>' + common +
+                    '</span><a href="#" class="btn-sm btn fileupload-exists" data-dismiss="fileupload">' + rt + '</a></div>';
+                break;
+            //big image preview
+            case 1:
+                html =
+                    '<div class="fileupload fileupload-new" data-provides="fileupload">' +
+                    '<div class="fileupload-preview thumbnail form-control"></div><div>' + common +
+                    '</span><a href="#" class="btn fileupload-exists btn-sm" data-dismiss="fileupload">' + rt + '</a></div></div>';
+                break;
+            //sample
+            case 0:
+            default:
+                html =
+                    '<div class="fileupload fileupload-new" data-provides="fileupload">' + common +
+                    '</span><span class="fileupload-preview p-l-5"></span>' +
+                    '<a href="#" class="close close-pic fileupload-exists" data-dismiss="fileupload">' +
+                    '<i class="fa fa-times"></i></a></div>';
+
+        }
+        L.jq("#" + id).after($(html)).remove();
+    }
+};
+/**
+ *
+ //Basic
+ $('.spinner-1').spinedit();
+
+ //Set Value
+ $('.spinner-2').spinedit('setValue', 100);
+
+ //Set Minimum
+ $('.spinner-3').spinedit('setMinimum', -10);
+
+ //Set Maximum
+ $('.spinner-4').spinedit('setMaxmum', 100);
+
+ //Set Step
+ $('.spinner-5').spinedit('setStep', 10);
+
+ //Set Number Of Decimals
+ $('.spinner-6').spinedit('setNumberOfDecimals', 2);
+ * @type {{init: L.spinedit.init}}
+ */
+L.spinedit = {
+    init:function (selector, option) {
+        L.P.initlize(selector,option,'spinedit','spinner');
+    }
+};
+/**
+ * What You See Is What You Get
+ * @type {{init: L.wysiwyg.init, create: L.wysiwyg.create}}
+ */
+L.wysiwyg = {
+    /***
+     * @param selector
+     * @param option
+     * @returns {*|jQuery|HTMLElement} return selector of jquery
+     */
+    init:function (selector, option) {
+        selector = $((selector || '.wysiwye-editor'));
+        L.P.initlize(selector,option,'summernote','wysiwyg');
+        return selector;
+    },
+    create:function (option, place_id) {
+        var html = $('<div class="wysiwye-editor"></div>');
+        $("#"+place_id).after(html).remove();
+        return html;
+    },
+    getCode:function (selector) {
+        return selector.code();
+    }
+};
+L.markdown = {
+    /**
+     * HTML:<textarea class="markdown-editor" id="markdown" name="content" rows="10"></textarea>
+     * @param selector
+     * @param option
+     */
+    init:function (selector, option) {
+        L.P.initlize(selector,option,'markdown','markdown');
+    }
+};
+

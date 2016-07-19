@@ -84,14 +84,22 @@ window.L = (function () {
                 return this.indexOf(chars) === 0;
             };
         }
-
     })();
-
+    /**
+     * get the type of variable
+     * @param o
+     * @returns string :"number" "string" "boolean" "object" "function" 和 "undefined"
+     */
     var gettype = function (o) {
         if (o === null) return "Null";
         if (o === undefined) return "Undefined";
-        return Object.prototype.toString.call(o).slice(8, -1);
+        return Object.prototype.toString.call(o).slice(8, -1).toLowerCase();
     };
+    /**
+     * clone an object
+     * @param obj
+     * @returns {*}
+     */
     var clone = function (obj) {
         // Handle the 3 simple types, and null or undefined
         // "number," "string," "boolean," "object," "function," 和 "undefined"
@@ -431,7 +439,7 @@ window.L = (function () {
             return temp.toLowerCase();
         });
     })();
-    var _pathen = function (path) {
+    var pathen = function (path) {
         if ((path.length > 4) && (path.substr(0, 4) !== 'http')) {
             if (!options['public_url']) options['public_url'] = '/';//throw "Public uri not defined!";
             path = options['public_url'] + path;
@@ -582,6 +590,9 @@ window.L = (function () {
      * @type {{}}
      */
     var O = {
+        notempty:function(optname,obj,dft){
+            return obj?(obj.hasOwnProperty(optname) && obj[optname]):(dft || false);
+        },
         /**
          * 判断是否是Object类的实例,也可以指定参数二来判断是否是某一个类的实例
          * 例如:isObj({}) 得到 [object Object] isObj([]) 得到 [object Array]
@@ -817,19 +828,16 @@ window.L = (function () {
         }
     };
 
-    var _tag = true;
     //监听窗口状态变化
     window.document.onreadystatechange = function () {
         if (window.document.readyState === "complete" || window.document.readyState === "loaded") {
-            // window.document.onreadystatechange = null;//dangerous ,it may influence $.ready()
-            if(_tag){
-                for (var i = 0; i < _rs.length; i++) (_rs[i])();
-                _tag = false;
-            }
+            window.document.onreadystatechange = null;
+            for (var i = 0; i < _rs.length; i++) (_rs[i])();
         }
     };
 
     return {
+        gettype:gettype,
         jq: jq,
         sha1: sha1,//sha1加密
         md5: md5,//md5加密
@@ -869,14 +877,14 @@ window.L = (function () {
                 //现仅仅支持css,js,ico的类型
                 switch (type) {
                     case 'css':
-                        document.write('<link href="' + _pathen(path) + '" rel="stylesheet" type="text/css" />');
+                        document.write('<link href="' + pathen(path) + '" rel="stylesheet" type="text/css" />');
                         break;
                     case 'js':
-                        L.loadScript(_pathen(path),callback);
+                        L.loadScript(pathen(path),callback);
                         _lib.push(path);
                         break;
                     case 'ico':
-                        document.write('<link rel="shortcut icon" href="' + _pathen(path) + '" />');
+                        document.write('<link rel="shortcut icon" href="' + pathen(path) + '" />');
                         break;
                 }
                 //记录已经加载过的
@@ -1015,22 +1023,24 @@ window.L = (function () {
         P: {
             //plugin autoload start
             JsMap:{},
-            initJsMap:function (option) {
-                L.init(option,this.JsMap,true);
+            jsMap:function (option) {
+                if(O.isObj(option)) L.init(option,this.JsMap,true);
+                else return option?(O.notempty(option,this.JsMap)?this.JsMap[option]:null):this.JsMap;
             },
+            _jq:null,
             initlize:function(selector,options,functionName,pluginName){
                 options || (options = {});
                 pluginName = pluginName?pluginName:functionName;
+                var jq = this._jq?this._jq:(this._jq = $());
                 L.load(this.JsMap[pluginName],null,function () {
-                    if(L.O.isObj(selector)){
-                        //for batch setting,key as selector,value as max
-                        L.U.each(selector,function (v,k) {
-                            (L.jq(k)[functionName])(v);
-                            // functionName.call(L.jq(k),v);
-                        });
-                    }else{
+                    if(!L.O.isObj(selector) || (selector instanceof jQuery)){
                         //for single:it must be called when last is finished
-                        (L.jq(selector)[functionName])(options);
+                        (jq[functionName]).apply($(selector),O.isArr(options)?options:[options]);
+                    }else{
+                        //for batch setting,key as selector,value as max
+                        L.U.each(selector,function (params,k) {
+                            (jq[functionName]).apply($(k),O.isArr(params)?params:[params]);
+                        });
                     }
                 });
             },
