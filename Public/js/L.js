@@ -843,13 +843,22 @@ window.L = (function () {
         md5: md5,//md5加密
         guid: guid,//随机获取一个GUID
         clone: clone,
-        //load resource for page
-        load: function (path, type,callback) {
+        /**
+         * load resource for page
+         * @param path like '/js/XXX.YY' which oppo to public_url
+         * @param type
+         * @param cb callback
+         * @returns {Window.L}
+         */
+        load: function (path, type,cb) {
             if (O.isArr(path) || O.isObj(path)) {
-                U.each(path,function (val) {
-                    this.load(val,null);
+                var env = this;
+                U.each(path,function (val,i) {/* is array */
+                    env.load(val,null,function () {
+                        //callback if all plugin finished loading
+                        (++i == path.length) && cb && cb();
+                    });
                 });
-                callback && callback();
             } else {
                 if (!type) {
                     var t = path.substring(path.length - 3);//根据后缀自动判断类型
@@ -865,13 +874,12 @@ window.L = (function () {
                             break;
                         default:
                             console.log("加载了错误的类型'" + t + "',加载的类型必须是[css,js,ico]");
-                            return;
                     }
                 }
                 //本页面加载过将不再重新载入
                 for (var i = 0; i < _lib.length; i++)
                     if (_lib[i] === path) {
-                        callback && callback();
+                        cb && cb();
                         return this;
                     }
                 //现仅仅支持css,js,ico的类型
@@ -880,7 +888,7 @@ window.L = (function () {
                         document.write('<link href="' + pathen(path) + '" rel="stylesheet" type="text/css" />');
                         break;
                     case 'js':
-                        L.loadScript(pathen(path),callback);
+                        L.loadScript(pathen(path),cb);
                         _lib.push(path);
                         break;
                     case 'ico':
@@ -1028,19 +1036,37 @@ window.L = (function () {
                 else return option?(O.notempty(option,this.JsMap)?this.JsMap[option]:null):this.JsMap;
             },
             _jq:null,
-            initlize:function(selector,options,functionName,pluginName){
+            loadLib:function(plugin,callback){
+                L.load(this.JsMap[plugin],null,callback);
+            },
+            /**
+             *
+             * @param selector
+             * @param options
+             * @param functionName
+             * @param pluginName
+             * @param callback callback while on loaded
+             */
+            initlize:function(selector,options,functionName,pluginName,callback){
                 options || (options = {});
                 pluginName = pluginName?pluginName:functionName;
                 var jq = this._jq?this._jq:(this._jq = $());
+                // console.log(this.JsMap,pluginName,this.JsMap[pluginName])
                 L.load(this.JsMap[pluginName],null,function () {
+                    // console.log(L.O.isObj(selector),selector instanceof jQuery);
                     if(!L.O.isObj(selector) || (selector instanceof jQuery)){
                         //for single:it must be called when last is finished
-                        (jq[functionName]).apply($(selector),O.isArr(options)?options:[options]);
+                        selector = $(selector);
+                        (functionName in jq) && (jq[functionName]).apply(selector,O.isArr(options)?options:[options]);
+                        callback && callback(selector);
                     }else{
                         //for batch setting,key as selector,value as max
+                        var list = [];
                         L.U.each(selector,function (params,k) {
-                            (jq[functionName]).apply($(k),O.isArr(params)?params:[params]);
+                           list.push( k = $(k));
+                            (functionName in jq) && (jq[functionName]).apply(k,O.isArr(params)?params:[params]);
                         });
+                        callback && callback(list);
                     }
                 });
             },

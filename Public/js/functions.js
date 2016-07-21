@@ -199,12 +199,6 @@ $(document).ready(function () {
 
 
     /* --------------------------------------------------------
-     Input Slider
-     -----------------------------------------------------------*/
-    if((v = $('.input-slider')).length) v.slider().on('slide', function (ev) {
-        $(this).closest('.slider-container').find('.slider-value').val(ev.value);
-    });
-    /* --------------------------------------------------------
      Media Player
      -----------------------------------------------------------*/
     var av = $('audio,video');
@@ -269,44 +263,43 @@ $(document).ready(function () {
     /* --------------------------------------------------------
      Checkbox + Radio
      -----------------------------------------------------------*/
-    if ($('input:checkbox, input:radio').length) {
-        //Checkbox + Radio skin
-        $('input:checkbox:not([data-toggle="buttons"] input, .make-switch input), input:radio:not([data-toggle="buttons"] input)').iCheck({
-            checkboxClass: 'icheckbox_minimal',
-            radioClass: 'iradio_minimal',
-            increaseArea: '20%' // optional
-        });
+    // if ($('input:checkbox, input:radio').length) {
+    //     //Checkbox + Radio skin
+    //     $('input:checkbox:not([data-toggle="buttons"] input, .make-switch input), input:radio:not([data-toggle="buttons"] input)').iCheck({
+    //         checkboxClass: 'icheckbox_minimal',
+    //         radioClass: 'iradio_minimal',
+    //         increaseArea: '20%' // optional
+    //     });
 
         //Checkbox listing
-        $('.list-parent-check').on('ifChecked', function () {
-            $(this).closest('.list-container').find('.list-check').iCheck('check');
-        }).on('ifClicked', function () {
-            $(this).closest('.list-container').find('.list-check').iCheck('uncheck');
-        });
-
-        $('.list-check').on('ifChecked', function () {
-            var parent = $(this).closest('.list-container').find('.list-parent-check');
-            var thisCheck = $(this).closest('.list-container').find('.list-check');
-            var thisChecked = $(this).closest('.list-container').find('.list-check:checked');
-
-            if (thisCheck.length == thisChecked.length) {
-                parent.iCheck('check');
-            }
-        }).on('ifUnchecked', function () {
-            var parent = $(this).closest('.list-container').find('.list-parent-check');
-            parent.iCheck('uncheck');
-        }).on('ifChanged', function () {
-            var thisChecked = $(this).closest('.list-container').find('.list-check:checked');
-            var showon = $(this).closest('.list-container').find('.show-on');
-            if (thisChecked.length > 0) {
-                showon.show();
-            }
-            else {
-                showon.hide();
-            }
-        });
-
-    }
+        // $('.list-parent-check').on('ifChecked', function () {
+        //     $(this).closest('.list-container').find('.list-check').iCheck('check');
+        // }).on('ifClicked', function () {
+        //     $(this).closest('.list-container').find('.list-check').iCheck('uncheck');
+        // });
+        //
+        // $('.list-check').on('ifChecked', function () {
+        //     var parent = $(this).closest('.list-container').find('.list-parent-check');
+        //     var thisCheck = $(this).closest('.list-container').find('.list-check');
+        //     var thisChecked = $(this).closest('.list-container').find('.list-check:checked');
+        //
+        //     if (thisCheck.length == thisChecked.length) {
+        //         parent.iCheck('check');
+        //     }
+        // }).on('ifUnchecked', function () {
+        //     var parent = $(this).closest('.list-container').find('.list-parent-check');
+        //     parent.iCheck('uncheck');
+        // }).on('ifChanged', function () {
+        //     var thisChecked = $(this).closest('.list-container').find('.list-check:checked');
+        //     var showon = $(this).closest('.list-container').find('.show-on');
+        //     if (thisChecked.length > 0) {
+        //         showon.show();
+        //     }
+        //     else {
+        //         showon.hide();
+        //     }
+        // });
+    // }
 
     /* --------------------------------------------------------
      Date Time Widget
@@ -385,7 +378,9 @@ L.P.jsMap({
     'colorpicker':'/js/colorpicker.min.js',
     'spinner':'/js/spinner.min.js',
     'wysiwyg':'/js/editor2.min.js',
-    'markdown':'/js/markdown.min.js'
+    'markdown':'/js/markdown.min.js',
+    'iCheck':['/js/icheck.js','/js/toggler.min.js'],
+    'slider':'/js/slider.min.js'
 });
 //components - no plugin reply
 L.alert = {
@@ -568,16 +563,23 @@ L.popover = {
     }
 };
 //single plugin based
+L.slider = {
+    init:function (selector, option,callback) {
+        L.P.initlize(selector,option,'slider','slider',callback);
+    }
+};
+L.iCheck = {
+    init:function(selector,option,callback) {
+        selector = $(selector || 'input:checkbox,input:radio');
+        L.P.initlize(selector,option,'iCheck','iCheck',callback);
+    },
+    load:function (callback) {
+        L.P.loadLib('iCheck',callback);
+    }
+};
 L.inputMask = {
-    init:function (params) {
-        if(L.O.isFunc(params)){
-            L.load(L.P.JsMap['input_mask'],null,params);
-        }else{
-            //key as selector,value as params
-            L.U.each(params,function (v,k) {
-                mask.apply(L.jq(k),v);
-            });
-        }
+    init:function (selector,option) {
+        L.P.initlize(selector,option,'mask','input_mask');
     }
 };
 L.scroll = {
